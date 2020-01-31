@@ -5,7 +5,7 @@ import (
 	"net/http/httptest"
 
 	"github.com/gin-gonic/gin"
-	"github.com/photoprism/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/config"
 )
 
 // API test helper

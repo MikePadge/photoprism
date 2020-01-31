@@ -6,8 +6,8 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/event"
 )
 
 var log = event.Log

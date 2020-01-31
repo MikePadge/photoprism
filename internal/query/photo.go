@@ -7,9 +7,9 @@ import (
 
 	"github.com/gosimple/slug"
 	"github.com/jinzhu/gorm"
-	"github.com/photoprism/photoprism/internal/entity"
-	"github.com/photoprism/photoprism/internal/form"
-	"github.com/photoprism/photoprism/pkg/capture"
+	"github.com/mikepadge/photoprism/internal/entity"
+	"github.com/mikepadge/photoprism/internal/form"
+	"github.com/mikepadge/photoprism/pkg/capture"
 )
 
 // PhotoResult contains found photos and their main file plus other meta data.

@@ -7,9 +7,9 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/event"
-	"github.com/photoprism/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/mutex"
 )
 
 // Thumbnails represents a thumbnail generator.

@@ -5,7 +5,7 @@ import (
 	"path"
 	"path/filepath"
 
-	"github.com/photoprism/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/event"
 )
 
 type ImportJob struct {

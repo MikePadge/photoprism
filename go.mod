@@ -1,4 +1,4 @@
-module github.com/photoprism/photoprism
+module github.com/mikepadge/photoprism
 
 require (
 	github.com/araddon/dateparse v0.0.0-20181123171228-21df004e09ca

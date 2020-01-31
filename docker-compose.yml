@@ -10,7 +10,7 @@ services:
       - "2342:2342" # Web Server (PhotoPrism)
       - "4000:4000" # Database (MySQL compatible)
     volumes:
-      - ".:/go/src/github.com/photoprism/photoprism"
+      - ".:/go/src/github.com/mikepadge/photoprism"
     shm_size: "2gb"
     environment:
       PHOTOPRISM_URL: "http://localhost:2342/"
@@ -25,13 +25,13 @@ services:
       PHOTOPRISM_UPLOAD_NSFW: "false"
       PHOTOPRISM_HIDE_NSFW: "false"
       PHOTOPRISM_SERVER_MODE: "debug"
-      PHOTOPRISM_ASSETS_PATH: "/go/src/github.com/photoprism/photoprism/assets"
-      PHOTOPRISM_CACHE_PATH: "/go/src/github.com/photoprism/photoprism/assets/cache"
-      PHOTOPRISM_RESOURCES_PATH: "/go/src/github.com/photoprism/photoprism/assets/resources"
-      PHOTOPRISM_CONFIG_PATH: "/go/src/github.com/photoprism/photoprism/assets/config"
-      PHOTOPRISM_IMPORT_PATH: "/go/src/github.com/photoprism/photoprism/assets/photos/import"
-      PHOTOPRISM_EXPORT_PATH: "/go/src/github.com/photoprism/photoprism/assets/photos/export"
-      PHOTOPRISM_ORIGINALS_PATH: "/go/src/github.com/photoprism/photoprism/assets/photos/originals"
+      PHOTOPRISM_ASSETS_PATH: "/go/src/github.com/mikepadge/photoprism/assets"
+      PHOTOPRISM_CACHE_PATH: "/go/src/github.com/mikepadge/photoprism/assets/cache"
+      PHOTOPRISM_RESOURCES_PATH: "/go/src/github.com/mikepadge/photoprism/assets/resources"
+      PHOTOPRISM_CONFIG_PATH: "/go/src/github.com/mikepadge/photoprism/assets/config"
+      PHOTOPRISM_IMPORT_PATH: "/go/src/github.com/mikepadge/photoprism/assets/photos/import"
+      PHOTOPRISM_EXPORT_PATH: "/go/src/github.com/mikepadge/photoprism/assets/photos/export"
+      PHOTOPRISM_ORIGINALS_PATH: "/go/src/github.com/mikepadge/photoprism/assets/photos/originals"
       PHOTOPRISM_DATABASE_DRIVER: "internal"
       PHOTOPRISM_DATABASE_DSN: "root:photoprism@tcp(localhost:4000)/photoprism?parseTime=true"
       PHOTOPRISM_HTTP_HOST: "0.0.0.0"

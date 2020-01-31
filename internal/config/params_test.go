@@ -3,7 +3,7 @@ package config
 import (
 	"testing"
 
-	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/mikepadge/photoprism/pkg/fs"
 	"github.com/stretchr/testify/assert"
 )
 

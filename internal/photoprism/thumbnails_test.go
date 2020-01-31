@@ -5,12 +5,12 @@ import (
 	"testing"
 
 	"github.com/disintegration/imaging"
-	"github.com/photoprism/photoprism/internal/classify"
-	"github.com/photoprism/photoprism/internal/entity"
-	"github.com/photoprism/photoprism/internal/nsfw"
-	"github.com/photoprism/photoprism/internal/thumb"
+	"github.com/mikepadge/photoprism/internal/classify"
+	"github.com/mikepadge/photoprism/internal/entity"
+	"github.com/mikepadge/photoprism/internal/nsfw"
+	"github.com/mikepadge/photoprism/internal/thumb"
 
-	"github.com/photoprism/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -61,7 +61,7 @@ func TestThumbnails_Filename(t *testing.T) {
 	t.Run("", func(t *testing.T) {
 		filename, err := thumb.Filename("99988", thumbsPath, 150, 150, thumb.ResampleFit, thumb.ResampleNearestNeighbor)
 		assert.Nil(t, err)
-		assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/testdata/cache/_tmp/9/9/9/99988_150x150_fit.jpg", filename)
+		assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/testdata/cache/_tmp/9/9/9/99988_150x150_fit.jpg", filename)
 	})
 	t.Run("hash too short", func(t *testing.T) {
 		_, err := thumb.Filename("999", thumbsPath, 150, 150, thumb.ResampleFit, thumb.ResampleNearestNeighbor)

@@ -4,9 +4,9 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/photoprism/photoprism/internal/event"
-	"github.com/photoprism/photoprism/internal/form"
-	"github.com/photoprism/photoprism/internal/query"
+	"github.com/mikepadge/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/form"
+	"github.com/mikepadge/photoprism/internal/query"
 )
 
 type EntityEvent string

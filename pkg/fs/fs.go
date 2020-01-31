@@ -3,7 +3,7 @@ Package fs provides filesystem related constants and functions.
 
 Additional information can be found in our Developer Guide:
 
-https://github.com/photoprism/photoprism/wiki
+https://github.com/mikepadge/photoprism/wiki
 */
 package fs
 

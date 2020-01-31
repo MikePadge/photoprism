@@ -3,7 +3,7 @@ package osm
 import (
 	"strings"
 
-	"github.com/photoprism/photoprism/pkg/txt"
+	"github.com/mikepadge/photoprism/pkg/txt"
 )
 
 var labelTitles = map[string]string{

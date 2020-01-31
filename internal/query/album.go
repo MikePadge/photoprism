@@ -5,9 +5,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/photoprism/photoprism/internal/entity"
-	"github.com/photoprism/photoprism/internal/form"
-	"github.com/photoprism/photoprism/pkg/capture"
+	"github.com/mikepadge/photoprism/internal/entity"
+	"github.com/mikepadge/photoprism/internal/form"
+	"github.com/mikepadge/photoprism/pkg/capture"
 )
 
 // AlbumResult contains found albums

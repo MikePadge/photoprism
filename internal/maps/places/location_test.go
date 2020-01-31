@@ -3,7 +3,7 @@ package places
 import (
 	"testing"
 
-	"github.com/photoprism/photoprism/pkg/s2"
+	"github.com/mikepadge/photoprism/pkg/s2"
 	"github.com/stretchr/testify/assert"
 )
 

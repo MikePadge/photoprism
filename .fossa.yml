@@ -8,9 +8,9 @@ cli:
   project: git@github.com:photoprism/photoprism.git
 analyze:
   modules:
-  - name: github.com/photoprism/photoprism/cmd/photoprism
+  - name: github.com/mikepadge/photoprism/cmd/photoprism
     type: go
-    target: github.com/photoprism/photoprism/cmd/photoprism
+    target: github.com/mikepadge/photoprism/cmd/photoprism
     path: cmd/photoprism
   - name: frontend
     type: npm

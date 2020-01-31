@@ -3,13 +3,13 @@ This package detects porn images.
 
 Additional information can be found in our Developer Guide:
 
-https://github.com/photoprism/photoprism/wiki/Storage
+https://github.com/mikepadge/photoprism/wiki/Storage
 */
 
 package nsfw
 
 import (
-	"github.com/photoprism/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/event"
 )
 
 var log = event.Log

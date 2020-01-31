@@ -6,7 +6,7 @@ import (
 
 	"github.com/gosimple/slug"
 	"github.com/jinzhu/gorm"
-	"github.com/photoprism/photoprism/pkg/rnd"
+	"github.com/mikepadge/photoprism/pkg/rnd"
 )
 
 // Photo album

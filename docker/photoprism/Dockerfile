@@ -1,7 +1,7 @@
 FROM photoprism/development:20200126 as build
 
 # Set up project directory
-WORKDIR "/go/src/github.com/photoprism/photoprism"
+WORKDIR "/go/src/github.com/mikepadge/photoprism"
 COPY . .
 
 # Build PhotoPrism

@@ -6,10 +6,10 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	"github.com/photoprism/photoprism/internal/maps"
-	"github.com/photoprism/photoprism/internal/mutex"
-	"github.com/photoprism/photoprism/pkg/s2"
-	"github.com/photoprism/photoprism/pkg/txt"
+	"github.com/mikepadge/photoprism/internal/maps"
+	"github.com/mikepadge/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/pkg/s2"
+	"github.com/mikepadge/photoprism/pkg/txt"
 )
 
 var locationMutex = sync.Mutex{}

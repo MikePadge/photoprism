@@ -4,8 +4,8 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/photoprism/photoprism/internal/maps/places"
-	"github.com/photoprism/photoprism/pkg/s2"
+	"github.com/mikepadge/photoprism/internal/maps/places"
+	"github.com/mikepadge/photoprism/pkg/s2"
 	"github.com/stretchr/testify/assert"
 )
 

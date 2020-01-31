@@ -8,7 +8,7 @@ Our sponsors and contributors will get for free whatever we might have to
 [charge](https://docs.photoprism.org/en/latest/funding/) for a geodata, public events and maps 
 subscription later.
 
-Also please [leave a star](https://github.com/photoprism/photoprism/stargazers) here on GitHub if you like this project, 
+Also please [leave a star](https://github.com/mikepadge/photoprism/stargazers) here on GitHub if you like this project, 
 it provides additional motivation to keep going.
 
 Ideas backed by a sponsor are marked with a golden [sponsor][issues:sponsor] label.
@@ -35,5 +35,5 @@ Klemens Guder, [Greg](https://github.com/oziee)
 
 [patreon]: https://www.patreon.com/photoprism
 [paypal]: https://www.paypal.me/photoprism
-[issues:sponsor]: https://github.com/photoprism/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Asponsor
-[issues:unfunded]: https://github.com/photoprism/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Aunfunded
+[issues:sponsor]: https://github.com/mikepadge/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Asponsor
+[issues:unfunded]: https://github.com/mikepadge/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Aunfunded

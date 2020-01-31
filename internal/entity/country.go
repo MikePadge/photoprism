@@ -3,8 +3,8 @@ package entity
 import (
 	"github.com/gosimple/slug"
 	"github.com/jinzhu/gorm"
-	"github.com/photoprism/photoprism/internal/maps"
-	"github.com/photoprism/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/internal/maps"
+	"github.com/mikepadge/photoprism/internal/mutex"
 )
 
 var altCountryNames = map[string]string{

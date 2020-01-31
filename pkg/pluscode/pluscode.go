@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	olc "github.com/google/open-location-code/go"
-	"github.com/photoprism/photoprism/pkg/s2"
+	"github.com/mikepadge/photoprism/pkg/s2"
 )
 
 var defaultLen = 8

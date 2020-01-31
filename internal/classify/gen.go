@@ -11,7 +11,7 @@ import (
 	"text/template"
 	"unicode"
 
-	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/mikepadge/photoprism/pkg/fs"
 	"gopkg.in/yaml.v2"
 )
 

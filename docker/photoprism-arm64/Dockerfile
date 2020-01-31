@@ -98,7 +98,7 @@ RUN wget "https://dl.photoprism.org/tensorflow/nsfw.zip?${BUILD_TAG}" -O /tmp/ph
 RUN wget "https://dl.photoprism.org/tensorflow/nasnet.zip?${BUILD_TAG}" -O /tmp/photoprism/nasnet.zip
 
 # Set up project directory
-WORKDIR "/go/src/github.com/photoprism/photoprism"
+WORKDIR "/go/src/github.com/mikepadge/photoprism"
 COPY . .
 
 # Build PhotoPrism

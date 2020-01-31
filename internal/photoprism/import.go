@@ -9,11 +9,11 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/entity"
-	"github.com/photoprism/photoprism/internal/event"
-	"github.com/photoprism/photoprism/internal/mutex"
-	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/entity"
+	"github.com/mikepadge/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/pkg/fs"
 )
 
 // Import represents an importer that can copy/move MediaFiles to the originals directory.

@@ -6,7 +6,7 @@ import (
 	"os/exec"
 	"path/filepath"
 
-	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/mikepadge/photoprism/pkg/fs"
 )
 
 func findExecutable(configBin, defaultBin string) (result string) {

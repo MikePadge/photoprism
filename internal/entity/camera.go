@@ -7,7 +7,7 @@ import (
 
 	"github.com/gosimple/slug"
 	"github.com/jinzhu/gorm"
-	"github.com/photoprism/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/internal/mutex"
 )
 
 // Camera model and make (as extracted from UpdateExif metadata)

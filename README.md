@@ -2,10 +2,10 @@ PhotoPrism: Browse your life in pictures
 ========================================
 
 [![License: GPL](https://img.shields.io/badge/license-GPL-blue.svg)][license]
-[![Code Quality](https://goreportcard.com/badge/github.com/photoprism/photoprism)][goreport]
+[![Code Quality](https://goreportcard.com/badge/github.com/mikepadge/photoprism)][goreport]
 [![Build Status](https://travis-ci.org/photoprism/photoprism.png?branch=develop)][ci]
 [![Documentation](https://readthedocs.org/projects/photoprism-docs/badge/?version=latest&style=flat)][docs]
-[![GitHub contributors](https://img.shields.io/github/contributors/photoprism/photoprism.svg)](https://github.com/photoprism/photoprism/graphs/contributors/)
+[![GitHub contributors](https://img.shields.io/github/contributors/photoprism/photoprism.svg)](https://github.com/mikepadge/photoprism/graphs/contributors/)
 [![Community Chat](https://img.shields.io/badge/chat-on%20gitter-4aa087.svg)][chat]
 [![Twitter](https://img.shields.io/badge/follow-@browseyourlife-00acee.svg)][twitter]
 
@@ -15,7 +15,7 @@ Say goodbye to solutions that force you to upload your visual memories to the cl
 
 ![](https://dl.photoprism.org/assets/img/preview.jpg)
 
-More screenshots: https://github.com/photoprism/photoprism/wiki/Screenshots
+More screenshots: https://github.com/mikepadge/photoprism/wiki/Screenshots
 
 ## What to expect ##
 
@@ -43,7 +43,7 @@ or [contact us via email](mailto:hello@photoprism.org).
 ## Why this has to be free software ##
 
 The development of every commercial product is focused on monetization.
-We've [built similar apps more than once](https://github.com/photoprism/photoprism/wiki/Mediencenter) 
+We've [built similar apps more than once](https://github.com/mikepadge/photoprism/wiki/Mediencenter) 
 and every single time the constraints of working
 in a profit-oriented corporate environment were an impediment.
 
@@ -52,15 +52,15 @@ amount of work not done - can be very powerful.
 Go itself is a [great example](https://talks.golang.org/2015/simplicity-is-complicated.slide).
 
 Our long-term goal is to become an open platform for machine 
-learning [research](https://github.com/photoprism/photoprism/wiki/Research) based on real-world photo collections.
+learning [research](https://github.com/mikepadge/photoprism/wiki/Research) based on real-world photo collections.
 We're already in contact with data scientists who like our idea.
 
 ## How to contribute ##
 
 We welcome contributions of any kind. If you have a bug or an idea, read our 
 [guide](https://docs.photoprism.org/en/latest/developer-guide/) before opening an issue.
-Issues labeled [help wanted](https://github.com/photoprism/photoprism/labels/help%20wanted) / 
-[easy](https://github.com/photoprism/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Aeasy) can be
+Issues labeled [help wanted](https://github.com/mikepadge/photoprism/labels/help%20wanted) / 
+[easy](https://github.com/mikepadge/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Aeasy) can be
 good (first) contributions. 
 
 Please follow us on [Twitter][twitter] and join our [developers mailing list](https://groups.google.com/a/photoprism.org/forum/#!forum/developers) 
@@ -93,15 +93,15 @@ Looking forward, specific solutions for funding development and maintenance coul
 You're most welcome to support us via [GitHub Sponsors](https://github.com/sponsors/lastzero), 
 especially if you need help with using our software. They will match every donation in the first year.
 In addition, you can find us on [Patreon](https://www.patreon.com/photoprism) and [PayPal](https://www.paypal.me/photoprism). 
-Our [sponsors](https://github.com/photoprism/photoprism/blob/develop/SPONSORS.md) and 
-[contributors](https://github.com/photoprism/photoprism/graphs/contributors/) will get for free whatever we might 
+Our [sponsors](https://github.com/mikepadge/photoprism/blob/develop/SPONSORS.md) and 
+[contributors](https://github.com/mikepadge/photoprism/graphs/contributors/) will get for free whatever we might 
 have to charge for a geodata subscription later.
 
-Also please [leave a star](https://github.com/photoprism/photoprism/stargazers) on GitHub if you like this project, 
+Also please [leave a star](https://github.com/mikepadge/photoprism/stargazers) on GitHub if you like this project, 
 it provides additional motivation to keep going.
 
-Ideas backed by a sponsor are marked with a golden [sponsor](https://github.com/photoprism/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Asponsor) label.
-Let us know if we mistakenly label an idea as [unfunded](https://github.com/photoprism/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Aunfunded).
+Ideas backed by a sponsor are marked with a golden [sponsor](https://github.com/mikepadge/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Asponsor) label.
+Let us know if we mistakenly label an idea as [unfunded](https://github.com/mikepadge/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Aunfunded).
 
 Thank you very much! <3
 
@@ -120,20 +120,20 @@ We'd like to remind everyone that we are no full-time marketing specialists but 
 enjoy a bit of sarcasm from time to time. Please let us know when there is an issue with our "nuance and tone" 
 and we'll find a solution.
 
-[wiki:classification]: https://github.com/photoprism/photoprism/wiki/Image-Classification
-[wiki:xmp]: https://github.com/photoprism/photoprism/wiki/XMP
-[wiki:geocoding]: https://github.com/photoprism/photoprism/wiki/Geocoding
-[wiki:raw]: https://github.com/photoprism/photoprism/wiki/Converting-RAW-to-JPEG
+[wiki:classification]: https://github.com/mikepadge/photoprism/wiki/Image-Classification
+[wiki:xmp]: https://github.com/mikepadge/photoprism/wiki/XMP
+[wiki:geocoding]: https://github.com/mikepadge/photoprism/wiki/Geocoding
+[wiki:raw]: https://github.com/mikepadge/photoprism/wiki/Converting-RAW-to-JPEG
 [help]: https://groups.google.com/a/photoprism.org/forum/#!forum/help
-[license]: https://github.com/photoprism/photoprism/blob/develop/LICENSE
+[license]: https://github.com/mikepadge/photoprism/blob/develop/LICENSE
 [patreon]: https://www.patreon.com/photoprism
 [paypal]: https://www.paypal.me/photoprism
-[goreport]: https://goreportcard.com/report/github.com/photoprism/photoprism
+[goreport]: https://goreportcard.com/report/github.com/mikepadge/photoprism
 [coverage]: https://codecov.io/gh/photoprism/photoprism
 [ci]: https://travis-ci.org/photoprism/photoprism
 [docs]: https://docs.photoprism.org/en/latest/
 [issuehunt]: https://issuehunt.io/repos/119160553
 [chat]: https://gitter.im/browseyourlife/community
 [twitter]: https://twitter.com/browseyourlife
-[unfunded issues]: https://github.com/photoprism/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Aunfunded
-[sponsored issues]: https://github.com/photoprism/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Asponsor
+[unfunded issues]: https://github.com/mikepadge/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Aunfunded
+[sponsored issues]: https://github.com/mikepadge/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Asponsor

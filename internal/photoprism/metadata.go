@@ -1,7 +1,7 @@
 package photoprism
 
 import (
-	"github.com/photoprism/photoprism/internal/meta"
+	"github.com/mikepadge/photoprism/internal/meta"
 )
 
 // MetaData returns exif meta data of a media file.

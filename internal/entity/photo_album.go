@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	"github.com/photoprism/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/internal/mutex"
 )
 
 // Photos can be added to multiple albums

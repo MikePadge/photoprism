@@ -24,7 +24,7 @@ import (
 	"time"
 
 	"github.com/opentracing/opentracing-go"
-	"github.com/photoprism/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/event"
 	"github.com/pingcap/errors"
 	"github.com/pingcap/parser/mysql"
 	"github.com/pingcap/parser/terror"

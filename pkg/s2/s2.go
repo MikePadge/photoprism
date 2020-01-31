@@ -3,7 +3,7 @@ Package s2 encapsulates Google's S2 library.
 
 Additional information can be found in our Developer Guide:
 
-https://github.com/photoprism/photoprism/wiki
+https://github.com/mikepadge/photoprism/wiki
 
 ...and in the Google S2 documentation:
 

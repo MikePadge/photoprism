@@ -4,7 +4,7 @@ import (
 	"strings"
 
 	"github.com/jinzhu/gorm"
-	"github.com/photoprism/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/internal/mutex"
 )
 
 // Keyword for full text search

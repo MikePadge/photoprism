@@ -9,9 +9,9 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/server"
-	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/server"
+	"github.com/mikepadge/photoprism/pkg/fs"
 	"github.com/sevlyar/go-daemon"
 	"github.com/urfave/cli"
 )

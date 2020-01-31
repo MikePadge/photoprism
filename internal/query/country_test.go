@@ -3,8 +3,8 @@ package query
 import (
 	"testing"
 
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/entity"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/entity"
 
 	"github.com/stretchr/testify/assert"
 )

@@ -1,6 +1,6 @@
 package query
 
-import "github.com/photoprism/photoprism/internal/entity"
+import "github.com/mikepadge/photoprism/internal/entity"
 
 // FindFiles finds files returning maximum results defined by limit
 // and finding them from an offest defined by offset.

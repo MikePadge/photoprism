@@ -14,7 +14,7 @@ import (
 	"strings"
 
 	"github.com/disintegration/imaging"
-	"github.com/photoprism/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/config"
 	tf "github.com/tensorflow/tensorflow/tensorflow/go"
 )
 

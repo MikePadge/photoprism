@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/meta"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/meta"
 	"github.com/stretchr/testify/assert"
 )
 

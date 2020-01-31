@@ -3,12 +3,12 @@ This package contains PhotoPrism database queries.
 
 Additional information can be found in our Developer Guide:
 
-https://github.com/photoprism/photoprism/wiki
+https://github.com/mikepadge/photoprism/wiki
 */
 package query
 
 import (
-	"github.com/photoprism/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/event"
 
 	"github.com/jinzhu/gorm"
 )

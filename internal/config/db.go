@@ -10,9 +10,9 @@ import (
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"github.com/photoprism/photoprism/internal/entity"
-	"github.com/photoprism/photoprism/internal/mutex"
-	"github.com/photoprism/photoprism/internal/tidb"
+	"github.com/mikepadge/photoprism/internal/entity"
+	"github.com/mikepadge/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/internal/tidb"
 )
 
 // DatabaseDriver returns the database driver name.

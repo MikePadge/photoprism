@@ -8,10 +8,10 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/gorilla/websocket"
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/event"
-	"github.com/photoprism/photoprism/internal/session"
-	"github.com/photoprism/photoprism/pkg/rnd"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/session"
+	"github.com/mikepadge/photoprism/pkg/rnd"
 )
 
 var wsConnection = websocket.Upgrader{

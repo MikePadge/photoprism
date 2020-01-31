@@ -4,8 +4,8 @@ import (
 	"errors"
 	"strings"
 
-	"github.com/photoprism/photoprism/internal/maps/osm"
-	"github.com/photoprism/photoprism/internal/maps/places"
+	"github.com/mikepadge/photoprism/internal/maps/osm"
+	"github.com/mikepadge/photoprism/internal/maps/places"
 )
 
 /* TODO

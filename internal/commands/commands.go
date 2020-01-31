@@ -3,7 +3,7 @@ This package contains commands and flags used by the photoprism application.
 
 Additional information concerning the command-line interface can be found in our Developer Guide:
 
-https://github.com/photoprism/photoprism/wiki/Commands
+https://github.com/mikepadge/photoprism/wiki/Commands
 */
 package commands
 
@@ -11,8 +11,8 @@ import (
 	"os"
 	"syscall"
 
-	"github.com/photoprism/photoprism/internal/event"
-	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/mikepadge/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/pkg/fs"
 	"github.com/sevlyar/go-daemon"
 )
 

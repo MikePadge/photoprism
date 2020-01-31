@@ -14,11 +14,11 @@ import (
 
 	"github.com/disintegration/imaging"
 	"github.com/djherbis/times"
-	"github.com/photoprism/photoprism/internal/entity"
-	"github.com/photoprism/photoprism/internal/meta"
-	"github.com/photoprism/photoprism/internal/thumb"
-	"github.com/photoprism/photoprism/pkg/capture"
-	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/mikepadge/photoprism/internal/entity"
+	"github.com/mikepadge/photoprism/internal/meta"
+	"github.com/mikepadge/photoprism/internal/thumb"
+	"github.com/mikepadge/photoprism/pkg/capture"
+	"github.com/mikepadge/photoprism/pkg/fs"
 )
 
 // MediaFile represents a single photo, video or sidecar file.

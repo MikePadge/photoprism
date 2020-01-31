@@ -3,8 +3,8 @@ package commands
 import (
 	"time"
 
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/photoprism"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/photoprism"
 	"github.com/urfave/cli"
 )
 

@@ -4,10 +4,10 @@ import (
 	"net/http"
 
 	"github.com/gin-gonic/gin"
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/form"
-	"github.com/photoprism/photoprism/internal/session"
-	"github.com/photoprism/photoprism/pkg/txt"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/form"
+	"github.com/mikepadge/photoprism/internal/session"
+	"github.com/mikepadge/photoprism/pkg/txt"
 )
 
 // POST /api/v1/session

@@ -3,7 +3,7 @@ package photoprism
 import (
 	"testing"
 
-	"github.com/photoprism/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 

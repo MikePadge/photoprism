@@ -4,9 +4,9 @@ import (
 	"fmt"
 	"path"
 
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/query"
-	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/query"
+	"github.com/mikepadge/photoprism/pkg/fs"
 
 	"github.com/gin-gonic/gin"
 )

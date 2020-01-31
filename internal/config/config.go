@@ -10,9 +10,9 @@ import (
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
 	gc "github.com/patrickmn/go-cache"
-	"github.com/photoprism/photoprism/internal/event"
-	"github.com/photoprism/photoprism/internal/mutex"
-	"github.com/photoprism/photoprism/internal/thumb"
+	"github.com/mikepadge/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/internal/thumb"
 	"github.com/sirupsen/logrus"
 	"github.com/urfave/cli"
 )

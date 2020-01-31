@@ -7,13 +7,13 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/photoprism/photoprism/internal/classify"
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/event"
-	"github.com/photoprism/photoprism/internal/form"
-	"github.com/photoprism/photoprism/internal/nsfw"
-	"github.com/photoprism/photoprism/internal/photoprism"
-	"github.com/photoprism/photoprism/pkg/txt"
+	"github.com/mikepadge/photoprism/internal/classify"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/form"
+	"github.com/mikepadge/photoprism/internal/nsfw"
+	"github.com/mikepadge/photoprism/internal/photoprism"
+	"github.com/mikepadge/photoprism/pkg/txt"
 )
 
 var ind *photoprism.Index

@@ -3,12 +3,12 @@ This package encapsulates the geo location APIs.
 
 Additional information can be found in our Developer Guide:
 
-https://github.com/photoprism/photoprism/wiki
+https://github.com/mikepadge/photoprism/wiki
 */
 package maps
 
 import (
-	"github.com/photoprism/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/event"
 )
 
 //go:generate go run gen.go

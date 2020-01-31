@@ -2,7 +2,7 @@ package entity
 
 import (
 	"github.com/jinzhu/gorm"
-	"github.com/photoprism/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/internal/mutex"
 )
 
 type PhotoKeyword struct {

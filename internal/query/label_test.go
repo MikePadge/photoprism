@@ -1,11 +1,11 @@
 package query
 
 import (
-	"github.com/photoprism/photoprism/internal/form"
+	"github.com/mikepadge/photoprism/internal/form"
 	"github.com/stretchr/testify/assert"
 	"testing"
 
-	"github.com/photoprism/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/config"
 )
 
 func TestRepo_FindLabelBySlug(t *testing.T) {

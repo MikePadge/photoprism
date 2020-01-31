@@ -10,10 +10,10 @@ import (
 	"runtime"
 	"sync"
 
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/event"
-	"github.com/photoprism/photoprism/internal/mutex"
-	"github.com/photoprism/photoprism/internal/thumb"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/internal/thumb"
 )
 
 // Convert represents a converter that can convert RAW/HEIF images to JPEG.

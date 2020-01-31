@@ -9,11 +9,11 @@ import (
 	"sync"
 
 	"github.com/jinzhu/gorm"
-	"github.com/photoprism/photoprism/internal/classify"
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/event"
-	"github.com/photoprism/photoprism/internal/mutex"
-	"github.com/photoprism/photoprism/internal/nsfw"
+	"github.com/mikepadge/photoprism/internal/classify"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/mutex"
+	"github.com/mikepadge/photoprism/internal/nsfw"
 )
 
 // Index represents an indexer that indexes files in the originals directory.

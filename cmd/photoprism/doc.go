@@ -16,7 +16,7 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 File bugs or feature requests at:
-https://github.com/photoprism/photoprism/issues
+https://github.com/mikepadge/photoprism/issues
 
 */
 package main

@@ -3,7 +3,7 @@ package classify
 import (
 	"sort"
 
-	"github.com/photoprism/photoprism/pkg/txt"
+	"github.com/mikepadge/photoprism/pkg/txt"
 )
 
 // Labels is list of MediaFile labels.

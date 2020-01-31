@@ -3,7 +3,7 @@ package commands
 import (
 	"syscall"
 
-	"github.com/photoprism/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/config"
 	"github.com/sevlyar/go-daemon"
 	"github.com/urfave/cli"
 )

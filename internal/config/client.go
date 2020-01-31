@@ -4,9 +4,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/photoprism/photoprism/internal/entity"
-	"github.com/photoprism/photoprism/pkg/colors"
-	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/mikepadge/photoprism/internal/entity"
+	"github.com/mikepadge/photoprism/pkg/colors"
+	"github.com/mikepadge/photoprism/pkg/fs"
 )
 
 // HTTP client / Web UI config values

@@ -3,7 +3,7 @@ package config
 import (
 	"testing"
 
-	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/mikepadge/photoprism/pkg/fs"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -75,7 +75,7 @@ func TestConfig_ConfigPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	configPath := c.ConfigPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/config", configPath)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/config", configPath)
 }
 
 func TestConfig_PIDFilename(t *testing.T) {
@@ -83,7 +83,7 @@ func TestConfig_PIDFilename(t *testing.T) {
 	c := NewConfig(ctx)
 
 	filename := c.PIDFilename()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/photoprism.pid", filename)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/photoprism.pid", filename)
 }
 
 func TestConfig_LogFilename(t *testing.T) {
@@ -91,7 +91,7 @@ func TestConfig_LogFilename(t *testing.T) {
 	c := NewConfig(ctx)
 
 	filename := c.LogFilename()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/photoprism.log", filename)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/photoprism.log", filename)
 }
 
 func TestConfig_DetachServer(t *testing.T) {
@@ -123,7 +123,7 @@ func TestConfig_SqlServerPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	path := c.SqlServerPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/resources/database", path)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/resources/database", path)
 }
 
 func TestConfig_SqlServerPassword(t *testing.T) {
@@ -171,7 +171,7 @@ func TestConfig_OriginalsPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	path := c.OriginalsPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/testdata/originals", path)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/testdata/originals", path)
 }
 
 func TestConfig_ImportPath(t *testing.T) {
@@ -259,7 +259,7 @@ func TestConfig_AssetsPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	path := c.AssetsPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets", path)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets", path)
 }
 
 func TestConfig_ResourcesPath(t *testing.T) {
@@ -267,7 +267,7 @@ func TestConfig_ResourcesPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	path := c.ResourcesPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/resources", path)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/resources", path)
 }
 
 func TestConfig_DetectNSFW(t *testing.T) {
@@ -291,7 +291,7 @@ func TestConfig_NSFWModelPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	result := c.NSFWModelPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/resources/nsfw", result)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/resources/nsfw", result)
 }
 
 func TestConfig_ExamplesPath(t *testing.T) {
@@ -299,7 +299,7 @@ func TestConfig_ExamplesPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	path := c.ExamplesPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/resources/examples", path)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/resources/examples", path)
 }
 
 func TestConfig_TensorFlowModelPath(t *testing.T) {
@@ -307,7 +307,7 @@ func TestConfig_TensorFlowModelPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	path := c.TensorFlowModelPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/resources/nasnet", path)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/resources/nasnet", path)
 }
 
 func TestConfig_HttpTemplatesPath(t *testing.T) {
@@ -315,7 +315,7 @@ func TestConfig_HttpTemplatesPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	path := c.HttpTemplatesPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/resources/templates", path)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/resources/templates", path)
 }
 
 func TestConfig_HttpFaviconsPath(t *testing.T) {
@@ -323,7 +323,7 @@ func TestConfig_HttpFaviconsPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	path := c.HttpFaviconsPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/resources/static/favicons", path)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/resources/static/favicons", path)
 }
 
 func TestConfig_HttpStaticPath(t *testing.T) {
@@ -331,7 +331,7 @@ func TestConfig_HttpStaticPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	path := c.HttpStaticPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/resources/static", path)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/resources/static", path)
 }
 
 func TestConfig_HttpStaticBuildPath(t *testing.T) {
@@ -339,7 +339,7 @@ func TestConfig_HttpStaticBuildPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 	path := c.HttpStaticBuildPath()
-	assert.Equal(t, "/go/src/github.com/photoprism/photoprism/assets/resources/static/build", path)
+	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/resources/static/build", path)
 }
 
 func TestConfig_CloseDb(t *testing.T) {

@@ -1,11 +1,11 @@
 package query
 
 import (
-	form "github.com/photoprism/photoprism/internal/form"
+	form "github.com/mikepadge/photoprism/internal/form"
 	"github.com/stretchr/testify/assert"
 	"testing"
 
-	"github.com/photoprism/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/config"
 )
 
 func TestRepo_FindAlbumByUUID(t *testing.T) {

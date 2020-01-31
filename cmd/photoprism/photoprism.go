@@ -3,9 +3,9 @@ package main
 import (
 	"os"
 
-	"github.com/photoprism/photoprism/internal/commands"
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/event"
+	"github.com/mikepadge/photoprism/internal/commands"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/event"
 	"github.com/urfave/cli"
 )
 

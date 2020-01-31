@@ -3,7 +3,7 @@ Package colors provides types and functions for color classification.
 
 Additional information can be found in our Developer Guide:
 
-https://github.com/photoprism/photoprism/wiki
+https://github.com/mikepadge/photoprism/wiki
 */
 package colors
 

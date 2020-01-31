@@ -3,9 +3,9 @@ package photoprism
 import (
 	"testing"
 
-	"github.com/photoprism/photoprism/internal/classify"
-	"github.com/photoprism/photoprism/internal/config"
-	"github.com/photoprism/photoprism/internal/nsfw"
+	"github.com/mikepadge/photoprism/internal/classify"
+	"github.com/mikepadge/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/nsfw"
 	"github.com/stretchr/testify/assert"
 )
 

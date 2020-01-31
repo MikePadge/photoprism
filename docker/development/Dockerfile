@@ -115,7 +115,7 @@ RUN env GO111MODULE=off /usr/local/go/bin/go get -u github.com/kyoh86/richgo
 RUN echo "alias go=richgo" > /root/.bash_aliases
 
 # Set up project directory
-WORKDIR "/go/src/github.com/photoprism/photoprism"
+WORKDIR "/go/src/github.com/mikepadge/photoprism"
 
 # Expose HTTP port 2342 plus 4000 for TiDB and 9515 for chromedriver
 EXPOSE 2342 4000 9515

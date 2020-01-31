@@ -8,7 +8,7 @@ import (
 
 	_ "github.com/jinzhu/gorm/dialects/mysql"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/mikepadge/photoprism/pkg/fs"
 	"github.com/urfave/cli"
 	"gopkg.in/yaml.v2"
 )
@@ -25,7 +25,7 @@ const (
 //
 // 2. Paths might actually be dynamic later (if we build a multi-user version).
 //
-// See https://github.com/photoprism/photoprism/issues/50#issuecomment-433856358
+// See https://github.com/mikepadge/photoprism/issues/50#issuecomment-433856358
 type Params struct {
 	Name               string
 	Url                string `yaml:"url" flag:"url"`

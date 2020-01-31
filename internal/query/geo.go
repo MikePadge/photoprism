@@ -5,10 +5,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/photoprism/photoprism/internal/form"
-	"github.com/photoprism/photoprism/pkg/capture"
-	"github.com/photoprism/photoprism/pkg/pluscode"
-	"github.com/photoprism/photoprism/pkg/s2"
+	"github.com/mikepadge/photoprism/internal/form"
+	"github.com/mikepadge/photoprism/pkg/capture"
+	"github.com/mikepadge/photoprism/pkg/pluscode"
+	"github.com/mikepadge/photoprism/pkg/s2"
 )
 
 // GeoResult represents a photo for displaying it on a map.

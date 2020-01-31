@@ -1,7 +1,7 @@
 package photoprism
 
 import (
-	"github.com/photoprism/photoprism/internal/entity"
+	"github.com/mikepadge/photoprism/internal/entity"
 	"github.com/pkg/errors"
 )
 

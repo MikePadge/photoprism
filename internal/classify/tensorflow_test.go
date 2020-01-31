@@ -6,7 +6,7 @@ import (
 
 	tensorflow "github.com/tensorflow/tensorflow/tensorflow/go"
 
-	"github.com/photoprism/photoprism/internal/config"
+	"github.com/mikepadge/photoprism/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 

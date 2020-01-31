@@ -4,7 +4,7 @@ import (
 	"time"
 
 	"github.com/jinzhu/gorm"
-	"github.com/photoprism/photoprism/pkg/rnd"
+	"github.com/mikepadge/photoprism/pkg/rnd"
 )
 
 // Shared photos and/or albums
