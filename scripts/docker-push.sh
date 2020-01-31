@@ -10,8 +10,8 @@ if [[ -z $1 ]] || [[ -z $2 ]]; then
     echo "Please provide a container image name and version" 1>&2
     exit 1
 else
-    echo "Pushing 'photoprism/$1:$2' to Docker hub...";
-    docker push photoprism/$1:latest
-    docker push photoprism/$1:$2
+    echo "Pushing 'maxhedrom/$1:$2' to Docker hub...";
+    docker push maxhedrom/$1:latest
+    docker push maxhedrom/$1:$2
     echo "Done"
 fi
