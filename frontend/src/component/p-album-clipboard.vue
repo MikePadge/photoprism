@@ -27,7 +27,7 @@
                         dark
                         small
                         :title="labels.download"
-                        color="teal accent-4"
+                        color="download"
                         @click.stop="download()"
                         class="p-album-clipboard-download"
                         :disabled="selection.length !== 1"
@@ -39,7 +39,7 @@
                         fab
                         dark
                         small
-                        color="delete"
+                        color="remove"
                         :title="labels.delete"
                         @click.stop="dialog.delete = true"
                         :disabled="selection.length === 0"

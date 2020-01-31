@@ -7,6 +7,7 @@ import (
 // PhotoSearch represents search form fields for "/api/v1/photos".
 type PhotoSearch struct {
 	Query       string    `form:"q"`
+	ID          string    `form:"id"`
 	Title       string    `form:"title"`
 	Description string    `form:"description"`
 	Notes       string    `form:"notes"`
@@ -14,6 +15,7 @@ type PhotoSearch struct {
 	Hash        string    `form:"hash"`
 	Duplicate   bool      `form:"duplicate"`
 	Archived    bool      `form:"archived"`
+	Error       bool      `form:"error"`
 	Lat         float64   `form:"lat"`
 	Lng         float64   `form:"lng"`
 	Dist        uint      `form:"dist"`

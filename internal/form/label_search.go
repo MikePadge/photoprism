@@ -3,6 +3,7 @@ package form
 // PhotoSearch represents search form fields for "/api/v1/labels".
 type LabelSearch struct {
 	Query     string `form:"q"`
+	ID        string `form:"id"`
 	Slug      string `form:"slug"`
 	Name      string `form:"name"`
 	All       bool   `form:"all"`
@@ -22,4 +23,8 @@ func (f *LabelSearch) SetQuery(q string) {
 
 func (f *LabelSearch) ParseQueryString() error {
 	return ParseQueryString(f)
+}
+
+func NewLabelSearch(query string) LabelSearch {
+	return LabelSearch{Query: query}
 }

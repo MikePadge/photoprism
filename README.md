@@ -15,11 +15,11 @@ Say goodbye to solutions that force you to upload your visual memories to the cl
 
 ![](https://dl.photoprism.org/assets/img/preview.jpg)
 
-More screenshots: https://photoprism.org/#screenshots
+More screenshots: https://github.com/photoprism/photoprism/wiki/Screenshots
 
 ## What to expect ##
 
-* Clearly structured [Web interface][wiki:screenshots] for browsing, organizing and sharing your personal photo collection
+* Clearly structured Web interface for browsing, organizing and sharing your personal photo collection
 * Import everything without worrying about duplicates or [RAW to JPEG conversion][wiki:raw]
 * [Geocoding][wiki:geocoding], [XMP support][wiki:xmp]  and [automated tagging][wiki:classification] 
   based on Google TensorFlow
@@ -29,9 +29,9 @@ More screenshots: https://photoprism.org/#screenshots
 You're welcome to play with our demo at [demo.photoprism.org](https://demo.photoprism.org).
 Leave your email to get a [release notification](https://goo.gl/forms/KBPVGl9PCsOKrAv33).
 
-Step-by-step [installation instructions](https://docs.photoprism.org/en/latest/setup/) can be found
+Step-by-step [installation instructions](https://docs.photoprism.org/en/latest/getting-started/) can be found
 in our [User Guide](https://docs.photoprism.org/en/latest/).
-Developers can skip this and move on to the [Developer Guide](https://github.com/photoprism/photoprism/wiki).
+Developers can skip this and move on to the [Developer Guide](https://docs.photoprism.org/en/latest/developer-guide/).
 
 All you need is a Web browser and [Docker](https://store.docker.com/search?type=edition&offering=community)
 to run the server. It is available for Mac, Linux and Windows.
@@ -58,7 +58,7 @@ We're already in contact with data scientists who like our idea.
 ## How to contribute ##
 
 We welcome contributions of any kind. If you have a bug or an idea, read our 
-[guide](https://docs.photoprism.org/en/latest/contribute/) before opening an issue.
+[guide](https://docs.photoprism.org/en/latest/developer-guide/) before opening an issue.
 Issues labeled [help wanted](https://github.com/photoprism/photoprism/labels/help%20wanted) / 
 [easy](https://github.com/photoprism/photoprism/issues?q=is%3Aissue+is%3Aopen+label%3Aeasy) can be
 good (first) contributions. 
@@ -68,12 +68,12 @@ to receive regular project updates and discuss development related topics. Don't
 
 ## Free beer ##
 
-This project is about freedom and privacy but not necessarily about free beer. We feel like it was a mistake on 
-our side to state there will be no costs, because clearly we have huge expenses, your server hardware
+This project is about freedom and privacy but not necessarily about free beer. We feel like it
+would be a mistake to state there will be no costs, because clearly we have huge expenses, your server hardware
 will have a price tag and then maybe you'd like to have some extra features that need to be developed.
 
-It's fair to say that users with basic needs will have no monthly costs. We were also way more 
-productive and effective per dollar (or euro) than commercial projects and learned a lot on top of it.
+It's fair to say that users with basic needs will have no monthly costs. We were also way more effective 
+per dollar than commercial projects and learned a lot on top of it.
 An earlier version of this document contained a rough number, but at the end of the day it doesn't matter.
 
 Basically all established OSS companies make 90% of their revenue with enterprise customers, that's why private users 
@@ -109,7 +109,6 @@ Thank you very much! <3
 
 We spent weeks asking organizations like [The Prototype Fund](https://prototypefund.de/en/) for help 
 and also tried to cooperate with companies like Mapbox and Cewe.
-Some conversations were good without leading to a sponsorship yet, others were a waste of time.
 You would think it's easier to get a few dollars with [our background](http://docs.photoprism.org/en/latest/team/) 
 and [working code](https://demo.photoprism.org/).
 
@@ -121,7 +120,6 @@ We'd like to remind everyone that we are no full-time marketing specialists but 
 enjoy a bit of sarcasm from time to time. Please let us know when there is an issue with our "nuance and tone" 
 and we'll find a solution.
 
-[wiki:screenshots]: https://github.com/photoprism/photoprism/wiki/Screenshots
 [wiki:classification]: https://github.com/photoprism/photoprism/wiki/Image-Classification
 [wiki:xmp]: https://github.com/photoprism/photoprism/wiki/XMP
 [wiki:geocoding]: https://github.com/photoprism/photoprism/wiki/Geocoding

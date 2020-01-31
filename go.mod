@@ -10,7 +10,7 @@ require (
 	github.com/cznic/sortutil v0.0.0-20181122101858-f5f958428db8 // indirect
 	github.com/disintegration/imaging v1.6.0
 	github.com/djherbis/times v1.1.0
-	github.com/dsoprea/go-exif/v2 v2.0.0-20200113231207-0bbb7a3584f7
+	github.com/dsoprea/go-exif/v2 v2.0.0-20200126052615-bd04addaf40f
 	github.com/dsoprea/go-jpeg-image-structure v0.0.0-20200113231507-4c1dccae8069
 	github.com/dsoprea/go-png-image-structure v0.0.0-20200113231611-5ee8d5825a92
 	github.com/dustin/go-humanize v1.0.0 // indirect
@@ -69,8 +69,9 @@ require (
 	github.com/unrolled/render v0.0.0-20181210145518-4c664cb3ad2f // indirect
 	github.com/urfave/cli v1.20.0
 	go.uber.org/atomic v1.4.0 // indirect
-	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4 // indirect
+	golang.org/x/crypto v0.0.0-20190621222207-cc06ce4a13d4
 	golang.org/x/image v0.0.0-20181116024801-cd38e8056d9b // indirect
+	golang.org/x/net v0.0.0-20200114155413-6afb5195e5aa // indirect
 	golang.org/x/sys v0.0.0-20190813064441-fde4db37ae7a // indirect
 	golang.org/x/text v0.3.1 // indirect
 	golang.org/x/time v0.0.0-20190308202827-9d24e82272b4 // indirect
@@ -80,7 +81,7 @@ require (
 	gopkg.in/mgo.v2 v2.0.0-20180705113604-9856a29383ce // indirect
 	gopkg.in/stretchr/testify.v1 v1.2.2 // indirect
 	gopkg.in/ugjka/go-tz.v2 v2.0.8
-	gopkg.in/yaml.v2 v2.2.7
+	gopkg.in/yaml.v2 v2.2.8
 )
 
 go 1.13

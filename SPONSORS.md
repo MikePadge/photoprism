@@ -5,7 +5,7 @@ You're most welcome to support us via [GitHub Sponsors](https://github.com/spons
 especially if you need help with using our software. They will match every donation in the first year.
 In addition, you can find us on [Patreon][patreon] and [PayPal][paypal].
 Our sponsors and contributors will get for free whatever we might have to 
-[charge](http://docs.photoprism.org/en/latest/funding/) for a geodata, public events and maps 
+[charge](https://docs.photoprism.org/en/latest/funding/) for a geodata, public events and maps 
 subscription later.
 
 Also please [leave a star](https://github.com/photoprism/photoprism/stargazers) here on GitHub if you like this project, 
@@ -20,9 +20,11 @@ Thank you very much to all of our sponsors and donors (including those that want
 
 [![Liquid Bytes](https://blog.liquidbytes.net/img/logo-retina.png)](https://blog.liquidbytes.net/)
 
+[Sid Karunaratne](https://github.com/sakaru) (Patreon, May 2019)
+
 [Simen Eriksen](https://github.com/dennorske) (GitHub Sponsors, December 2019)
 
-[Sid Karunaratne](https://github.com/sakaru) (Patreon, May 2019)
+[Alex Leahu](https://github.com/alxjsn) (GitHub Sponsors, January 2020)
 
 For a full list of GitHub sponsors, see https://github.com/sponsors/lastzero.
 

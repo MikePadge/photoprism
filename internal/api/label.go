@@ -22,6 +22,11 @@ import (
 // GET /api/v1/labels
 func GetLabels(router *gin.RouterGroup, conf *config.Config) {
 	router.GET("/labels", func(c *gin.Context) {
+		if Unauthorized(c, conf) {
+			c.AbortWithStatusJSON(http.StatusUnauthorized, ErrUnauthorized)
+			return
+		}
+
 		var f form.LabelSearch
 
 		q := query.New(conf.OriginalsPath(), conf.Db())
@@ -127,7 +132,7 @@ func LabelThumbnail(router *gin.RouterGroup, conf *config.Config) {
 		thumbType, ok := thumb.Types[typeName]
 
 		if !ok {
-			log.Errorf("invalid type: %s", typeName)
+			log.Errorf("thumbs: invalid type \"%s\"", typeName)
 			c.Data(http.StatusOK, "image/svg+xml", labelIconSvg)
 			return
 		}

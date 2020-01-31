@@ -11,11 +11,19 @@ import (
 	"github.com/urfave/cli"
 )
 
-// Re-indexes all photos in originals directory (photo library)
+// indexes all photos in originals directory (photo library)
 var IndexCommand = cli.Command{
 	Name:   "index",
-	Usage:  "Re-indexes all originals",
+	Usage:  "Indexes originals",
+	Flags:  indexFlags,
 	Action: indexAction,
+}
+
+var indexFlags = []cli.Flag{
+	cli.BoolFlag{
+		Name:  "all, a",
+		Usage: "re-index all originals, including unchanged files",
+	},
 }
 
 func indexAction(ctx *cli.Context) error {
@@ -42,12 +50,17 @@ func indexAction(ctx *cli.Context) error {
 
 	tf := classify.New(conf.ResourcesPath(), conf.TensorFlowDisabled())
 	nd := nsfw.New(conf.NSFWModelPath())
-
 	ind := photoprism.NewIndex(conf, tf, nd)
 
-	opt := photoprism.IndexOptionsAll()
-	files := ind.Start(opt)
+	var opt photoprism.IndexOptions
 
+	if ctx.Bool("all") {
+		opt = photoprism.IndexOptionsAll()
+	} else {
+		opt = photoprism.IndexOptionsNone()
+	}
+
+	files := ind.Start(opt)
 	elapsed := time.Since(start)
 
 	log.Infof("indexed %d files in %s", len(files), elapsed)

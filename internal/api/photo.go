@@ -29,7 +29,7 @@ func GetPhoto(router *gin.RouterGroup, conf *config.Config) {
 		p, err := q.PreloadPhotoByUUID(c.Param("uuid"))
 
 		if err != nil {
-			c.AbortWithStatusJSON(404, gin.H{"error": err.Error()})
+			c.AbortWithStatusJSON(http.StatusNotFound, ErrPhotoNotFound)
 			return
 		}
 
@@ -45,12 +45,13 @@ func UpdatePhoto(router *gin.RouterGroup, conf *config.Config) {
 			return
 		}
 
+		id := c.Param("uuid")
 		q := query.New(conf.OriginalsPath(), conf.Db())
 
-		m, err := q.FindPhotoByUUID(c.Param("uuid"))
+		m, err := q.FindPhotoByUUID(id)
 
 		if err != nil {
-			c.AbortWithStatusJSON(404, gin.H{"error": txt.UcFirst(err.Error())})
+			c.AbortWithStatusJSON(http.StatusNotFound, ErrPhotoNotFound)
 			return
 		}
 
@@ -61,9 +62,18 @@ func UpdatePhoto(router *gin.RouterGroup, conf *config.Config) {
 
 		conf.Db().Save(&m)
 
+		PublishPhotoEvent(EntityUpdated, id, c, q)
+
 		event.Success("photo saved")
 
-		c.JSON(http.StatusOK, m)
+		p, err := q.PreloadPhotoByUUID(id)
+
+		if err != nil {
+			c.AbortWithStatusJSON(http.StatusNotFound, ErrPhotoNotFound)
+			return
+		}
+
+		c.JSON(http.StatusOK, p)
 	})
 }
 
@@ -77,7 +87,7 @@ func GetPhotoDownload(router *gin.RouterGroup, conf *config.Config) {
 		f, err := q.FindFileByPhotoUUID(c.Param("uuid"))
 
 		if err != nil {
-			c.AbortWithStatusJSON(404, gin.H{"error": err.Error()})
+			c.AbortWithStatusJSON(http.StatusNotFound, ErrPhotoNotFound)
 			return
 		}
 
@@ -85,7 +95,7 @@ func GetPhotoDownload(router *gin.RouterGroup, conf *config.Config) {
 
 		if !fs.FileExists(fileName) {
 			log.Errorf("could not find original: %s", c.Param("uuid"))
-			c.Data(404, "image/svg+xml", photoIconSvg)
+			c.Data(http.StatusNotFound, "image/svg+xml", photoIconSvg)
 
 			// Set missing flag so that the file doesn't show up in search results anymore
 			f.FileMissing = true
@@ -112,11 +122,12 @@ func LikePhoto(router *gin.RouterGroup, conf *config.Config) {
 			return
 		}
 
+		id := c.Param("uuid")
 		q := query.New(conf.OriginalsPath(), conf.Db())
-		m, err := q.FindPhotoByUUID(c.Param("uuid"))
+		m, err := q.FindPhotoByUUID(id)
 
 		if err != nil {
-			c.AbortWithStatusJSON(404, gin.H{"error": txt.UcFirst(err.Error())})
+			c.AbortWithStatusJSON(http.StatusNotFound, ErrPhotoNotFound)
 			return
 		}
 
@@ -126,6 +137,8 @@ func LikePhoto(router *gin.RouterGroup, conf *config.Config) {
 		event.Publish("count.favorites", event.Data{
 			"count": 1,
 		})
+
+		PublishPhotoEvent(EntityUpdated, id, c, q)
 
 		c.JSON(http.StatusOK, gin.H{"photo": m})
 	})
@@ -142,11 +155,12 @@ func DislikePhoto(router *gin.RouterGroup, conf *config.Config) {
 			return
 		}
 
+		id := c.Param("uuid")
 		q := query.New(conf.OriginalsPath(), conf.Db())
-		m, err := q.FindPhotoByUUID(c.Param("uuid"))
+		m, err := q.FindPhotoByUUID(id)
 
 		if err != nil {
-			c.AbortWithStatusJSON(404, gin.H{"error": txt.UcFirst(err.Error())})
+			c.AbortWithStatusJSON(http.StatusNotFound, ErrPhotoNotFound)
 			return
 		}
 
@@ -156,6 +170,8 @@ func DislikePhoto(router *gin.RouterGroup, conf *config.Config) {
 		event.Publish("count.favorites", event.Data{
 			"count": -1,
 		})
+
+		PublishPhotoEvent(EntityUpdated, id, c, q)
 
 		c.JSON(http.StatusOK, gin.H{"photo": m})
 	})

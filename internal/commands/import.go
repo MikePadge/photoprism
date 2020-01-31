@@ -14,7 +14,7 @@ import (
 // Imports photos from path defined in command-line args
 var ImportCommand = cli.Command{
 	Name:   "import",
-	Usage:  "Imports photos",
+	Usage:  "Moves and indexes photos from import directory",
 	Action: importAction,
 }
 

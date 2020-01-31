@@ -2,7 +2,7 @@
     <div class="p-page p-page-photos" v-infinite-scroll="loadMore" :infinite-scroll-disabled="scrollDisabled"
          :infinite-scroll-distance="10" :infinite-scroll-listen-for-event="'scrollRefresh'">
 
-        <p-photo-search :settings="settings" :filter="filter" :filter-change="updateQuery"
+        <p-photo-search :settings="settings" :filter="filter" :filter-change="updateQuery" :dirty="dirty"
                         :refresh="refresh"></p-photo-search>
 
         <v-container fluid class="pa-4" v-if="loading">
@@ -33,6 +33,7 @@
 
 <script>
     import Photo from "model/photo";
+    import Event from "pubsub-js";
 
     export default {
         name: 'p-page-photos',
@@ -83,9 +84,14 @@
             const settings = {view: view};
 
             return {
+                uploadSubId: null,
+                countSubId: null,
+                modelSubId: null,
+                listen: false,
+                dirty: false,
                 results: [],
                 scrollDisabled: true,
-                pageSize: 60,
+                pageSize: 6000,
                 offset: 0,
                 selection: this.$clipboard.selection,
                 settings: settings,
@@ -152,6 +158,8 @@
 
                 Object.assign(params, this.lastFilter);
 
+                this.listen = false;
+
                 Photo.search(params).then(response => {
                     this.results = this.results.concat(response.models);
 
@@ -160,7 +168,7 @@
                     if (this.scrollDisabled) {
                         this.$notify.info(this.$gettext('All ') + this.results.length + this.$gettext(' photos loaded'));
                     }
-                });
+                }).finally(() => this.listen = true);
             },
             updateQuery() {
                 const query = {
@@ -216,11 +224,11 @@
 
                 this.offset = 0;
                 this.loading = true;
+                this.listen = false;
 
                 const params = this.searchParams();
 
                 Photo.search(params).then(response => {
-                    this.loading = false;
                     this.results = response.models;
 
                     this.scrollDisabled = (response.models.length < this.pageSize);
@@ -238,13 +246,104 @@
 
                         this.$nextTick(() => this.$emit("scrollRefresh"));
                     }
-                }).catch(() => this.loading = false);
+                }).finally(() => {
+                    this.dirty = false;
+                    this.loading = false;
+                    this.listen = true;
+                });
             },
+            onImportCompleted() {
+                this.dirty = true;
+
+                if (this.selection.length === 0 && this.offset === 0) {
+                    this.refresh();
+                }
+            },
+            onCount() {
+                this.dirty = true;
+            },
+            onPhotos(ev, data) {
+                if (!data || !data.entities) {
+                    console.warn("onPhotos(): no entities found in event data");
+                    return
+                }
+
+                const type = ev.split('.')[1];
+
+                console.log("onPhotos(): ", ev, type, data);
+
+                switch (type) {
+                    case 'updated':
+                        for (let i = 0; i < data.entities.length; i++) {
+                            const values = data.entities[i];
+                            const model = this.results.find((m) => m.ID === values.ID);
+
+                            for (let key in values) {
+                                if (values.hasOwnProperty(key)) {
+                                    model[key] = values[key];
+                                }
+                            }
+                        }
+                        break;
+                    case 'restored':
+                        if(this.context === "archive") {
+                            this.dirty = false;
+
+                            for (let i = 0; i < data.entities.length; i++) {
+                                const uuid = data.entities[i];
+                                const index = this.results.findIndex((m) => m.PhotoUUID === uuid);
+                                if (index >= 0) {
+                                    this.results.splice(index, 1);
+                                }
+                            }
+                        } else {
+                            this.dirty = true;
+                        }
+                        break;
+                    case 'archived':
+                        if(this.context === "photos") {
+                            this.dirty = false;
+
+                            for (let i = 0; i < data.entities.length; i++) {
+                                const uuid = data.entities[i];
+                                const index = this.results.findIndex((m) => m.PhotoUUID === uuid);
+                                if (index >= 0) {
+                                    this.results.splice(index, 1);
+                                }
+                            }
+                        } else {
+                            this.dirty = true;
+                        }
+                        break;
+                    case 'created':
+                        if(this.order === "imported" && JSON.stringify(this.filter) === "{}") {
+                            this.dirty = false;
+
+                            for (let i = 0; i < data.entities.length; i++) {
+                                const values = data.entities[i];
+                                const index = this.results.findIndex((m) => m.ID === values.ID);
+                                if(index === -1) {
+                                    this.results.unshift(new Photo(values));
+                                }
+                            }
+                        }
+                        break;
+                    default:
+                        console.warn("unexpected event type", ev);
+                }
+            }
         },
         created() {
             this.search();
+
+            this.uploadSubId = Event.subscribe("import.completed", (ev, data) => this.onImportCompleted(ev, data));
+            this.countSubId = Event.subscribe("count.photos", (ev, data) => this.onCount(ev, data));
+            this.modelSubId = Event.subscribe("photos", (ev, data) => this.onPhotos(ev, data));
         },
         destroyed() {
+            Event.unsubscribe(this.uploadSubId);
+            Event.unsubscribe(this.countSubId);
+            Event.unsubscribe(this.modelSubId);
         }
     };
 </script>

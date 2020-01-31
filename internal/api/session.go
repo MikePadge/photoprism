@@ -20,7 +20,7 @@ func CreateSession(router *gin.RouterGroup, conf *config.Config) {
 			return
 		}
 
-		if f.Password != conf.AdminPassword() {
+		if !conf.CheckPassword(f.Password) {
 			c.AbortWithStatusJSON(400, gin.H{"error": "Invalid password"})
 			return
 		}
@@ -31,7 +31,7 @@ func CreateSession(router *gin.RouterGroup, conf *config.Config) {
 
 		c.Header("X-Session-Token", token)
 
-		s := gin.H{"token": token, "user": user}
+		s := gin.H{"token": token, "user": user, "config": conf.ClientConfig()}
 
 		c.JSON(http.StatusOK, s)
 	})

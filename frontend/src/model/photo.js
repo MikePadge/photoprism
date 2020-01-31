@@ -1,8 +1,60 @@
 import Abstract from "model/abstract";
 import Api from "common/api";
-import { DateTime } from "luxon";
+import {DateTime} from "luxon";
 
 class Photo extends Abstract {
+    getDefaults() {
+        return {
+            ID: 0,
+            TakenAt: "",
+            PhotoUUID: "",
+            PhotoPath: "",
+            PhotoName: "",
+            PhotoTitle: "",
+            PhotoTitleChanged: false,
+            PhotoDescription: "",
+            PhotoNotes: "",
+            PhotoArtist: "",
+            PhotoCopyright: "",
+            PhotoFavorite: false,
+            PhotoPrivate: false,
+            PhotoNSFW: false,
+            PhotoStory: false,
+            PhotoLat: 0.0,
+            PhotoLng: 0.0,
+            PhotoAltitude: 0,
+            PhotoFocalLength: 0,
+            PhotoIso: 0,
+            PhotoFNumber: 0.0,
+            PhotoExposure: "",
+            PhotoViews: 0,
+            Camera: {},
+            CameraID: 0,
+            Lens: {},
+            LensID: 0,
+            CountryChanged: false,
+            Location: null,
+            LocationID: "",
+            Place: null,
+            PlaceID: "",
+            LocationChanged: false,
+            LocationEstimated: false,
+            PhotoCountry: "",
+            PhotoYear: 0,
+            PhotoMonth: 0,
+            TakenAtLocal: "",
+            TakenAtChanged: false,
+            TimeZone: "",
+            Files: [],
+            Labels: [],
+            Keywords: [],
+            Albums: [],
+            CreatedAt: "",
+            UpdatedAt: "",
+            DeletedAt: null,
+        };
+    }
+
     getEntityName() {
         return this.PhotoTitle;
     }
@@ -17,26 +69,42 @@ class Photo extends Abstract {
 
     getColor() {
         switch (this.PhotoColor) {
-        case "brown":
-        case "black":
-        case "white":
-        case "grey":
-            return "grey lighten-2";
-        default:
-            return this.PhotoColor + " lighten-4";
+            case "brown":
+            case "black":
+            case "white":
+            case "grey":
+                return "grey lighten-2";
+            default:
+                return this.PhotoColor + " lighten-4";
         }
-    }
-
-    getColors() {
-        return this.PhotoColors;
     }
 
     getGoogleMapsLink() {
         return "https://www.google.com/maps/place/" + this.PhotoLat + "," + this.PhotoLng;
     }
 
+    refreshFileAttr() {
+        if(!this.Files) {
+            return
+        }
+
+        const primary = this.Files.find(f => f.FilePrimary === true);
+
+        if(!primary) {
+            return
+        }
+
+        this.FileHash = primary.FileHash;
+        this.FileWidth = primary.FileWidth;
+        this.FileHeight = primary.FileHeight;
+    }
+
     getThumbnailUrl(type) {
-        return "/api/v1/thumbnails/" + this.FileHash + "/" + type;
+        if(this.FileHash) {
+            return "/api/v1/thumbnails/" + this.FileHash + "/" + type;
+        }
+
+        return "/api/v1/svg/photo";
     }
 
     getDownloadUrl() {
@@ -46,7 +114,7 @@ class Photo extends Abstract {
     getThumbnailSrcset() {
         const result = [];
 
-        result.push(this.getThumbnailUrl("fit_720")  + " 720w");
+        result.push(this.getThumbnailUrl("fit_720") + " 720w");
         result.push(this.getThumbnailUrl("fit_1280") + " 1280w");
         result.push(this.getThumbnailUrl("fit_1920") + " 1920w");
         result.push(this.getThumbnailUrl("fit_2560") + " 2560w");
@@ -56,7 +124,7 @@ class Photo extends Abstract {
     }
 
     calculateSize(width, height) {
-        if(width >= this.FileWidth && height >= this.FileHeight) { // Smaller
+        if (width >= this.FileWidth && height >= this.FileHeight) { // Smaller
             return {width: this.FileWidth, height: this.FileHeight};
         }
 
@@ -90,9 +158,9 @@ class Photo extends Abstract {
     }
 
     getDateString() {
-        if(this.TimeZone) {
+        if (this.TimeZone) {
             return DateTime.fromISO(this.TakenAt).setZone(this.TimeZone).toLocaleString(DateTime.DATETIME_FULL);
-        } else if(this.TakenAt) {
+        } else if (this.TakenAt) {
             return DateTime.fromISO(this.TakenAt).toLocaleString(DateTime.DATE_HUGE);
         } else {
             return "Unknown";
@@ -112,7 +180,9 @@ class Photo extends Abstract {
     }
 
     getCamera() {
-        if (this.CameraModel) {
+        if(this.Camera) {
+            return this.Camera.CameraMake + " " + this.Camera.CameraModel;
+        } else if (this.CameraModel) {
             return this.CameraMake + " " + this.CameraModel;
         }
 
@@ -122,7 +192,7 @@ class Photo extends Abstract {
     toggleLike() {
         this.PhotoFavorite = !this.PhotoFavorite;
 
-        if(this.PhotoFavorite) {
+        if (this.PhotoFavorite) {
             return Api.post(this.getEntityResource() + "/like");
         } else {
             return Api.delete(this.getEntityResource() + "/like");
@@ -137,6 +207,16 @@ class Photo extends Abstract {
     unlike() {
         this.PhotoFavorite = false;
         return Api.delete(this.getEntityResource() + "/like");
+    }
+
+    addLabel(name) {
+        return Api.post(this.getEntityResource() + "/label", {LabelName: name})
+            .then((response) => Promise.resolve(this.setValues(response.data)));
+    }
+
+    removeLabel(id) {
+        return Api.delete(this.getEntityResource() + "/label/" + id)
+            .then((response) => Promise.resolve(this.setValues(response.data)));
     }
 
     static getCollectionResource() {

@@ -26,27 +26,27 @@
                         fab
                         dark
                         small
-                        :title="labels.private"
-                        color="deep-purple lighten-2"
-                        @click.stop="batchPrivate()"
+                        :title="labels.share"
+                        color="share"
+                        @click.stop="dialog.share = true"
                         :disabled="selection.length === 0"
                         v-if="context !== 'archive'"
                         class="p-photo-clipboard-private"
                 >
-                    <v-icon>vpn_key</v-icon>
+                    <v-icon>share</v-icon>
                 </v-btn>
                 <v-btn
                         fab
                         dark
                         small
-                        :title="labels.story"
-                        color="cyan accent-4"
+                        :title="labels.edit"
+                        color="edit"
                         :disabled="selection.length === 0"
-                        @click.stop="batchStory()"
+                        @click.stop="dialog.edit = true"
                         v-if="context !== 'archive'"
-                        class="p-photo-clipboard-story"
+                        class="p-photo-clipboard-edit"
                 >
-                    <v-icon>wifi</v-icon>
+                    <v-icon>edit</v-icon>
                 </v-btn>
                 <!-- v-btn
                         fab
@@ -63,7 +63,7 @@
                         dark
                         small
                         :title="labels.download"
-                        color="teal accent-4"
+                        color="download"
                         @click.stop="download()"
                         v-if="context !== 'archive'"
                         class="p-photo-clipboard-download"
@@ -75,7 +75,7 @@
                         dark
                         small
                         :title="labels.addToAlbum"
-                        color="amber accent-4"
+                        color="album"
                         :disabled="selection.length === 0"
                         @click.stop="dialog.album = true"
                         v-if="context !== 'archive'"
@@ -88,7 +88,7 @@
                         fab
                         dark
                         small
-                        color="delete"
+                        color="remove"
                         :title="labels.archive"
                         @click.stop="dialog.archive = true"
                         :disabled="selection.length === 0"
@@ -102,7 +102,7 @@
                         fab
                         dark
                         small
-                        color="blue lighten-2"
+                        color="restore"
                         :title="labels.restore"
                         @click.stop="batchRestorePhotos"
                         :disabled="selection.length === 0"
@@ -117,13 +117,13 @@
                         dark
                         small
                         :title="labels.removeFromAlbum"
-                        color="delete"
+                        color="remove"
                         @click.stop="removeFromAlbum"
                         :disabled="selection.length === 0"
                         v-if="album"
                         class="p-photo-clipboard-delete"
                 >
-                    <v-icon>delete</v-icon>
+                    <v-icon>remove</v-icon>
                 </v-btn>
                 <v-btn
                         fab
@@ -141,8 +141,10 @@
                               @confirm="addToAlbum"></p-photo-album-dialog>
         <p-photo-archive-dialog :show="dialog.archive" @cancel="dialog.archive = false"
                                @confirm="batchArchivePhotos"></p-photo-archive-dialog>
-        <p-photo-edit-dialog :show="dialog.edit" @cancel="dialog.edit = false"
-                             @confirm="batchEditPhotos"></p-photo-edit-dialog>
+        <p-photo-edit-dialog :show="dialog.edit" :selection="selection" :album="album" @cancel="dialog.edit = false"
+                             @confirm="dialog.edit = fals"></p-photo-edit-dialog>
+        <p-photo-share-dialog :show="dialog.share" :selection="selection" :album="album" @cancel="dialog.share = false"
+                             @confirm="dialog.share = false"></p-photo-share-dialog>
     </div>
 </template>
 <script>
@@ -164,9 +166,11 @@
                     archive: false,
                     album: false,
                     edit: false,
+                    share: false,
                 },
                 labels: {
-                    private: this.$gettext("Private"),
+                    share: this.$gettext("Share"),
+                    edit: this.$gettext("Edit"),
                     story: this.$gettext("Story"),
                     addToAlbum: this.$gettext("Add to album"),
                     removeFromAlbum: this.$gettext("Remove"),

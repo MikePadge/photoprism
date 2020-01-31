@@ -34,6 +34,9 @@ func registerRoutes(router *gin.Engine, conf *config.Config) {
 		api.GetPhotoDownload(v1, conf)
 		api.LikePhoto(v1, conf)
 		api.DislikePhoto(v1, conf)
+		api.AddPhotoLabel(v1, conf)
+		api.RemovePhotoLabel(v1, conf)
+		api.GetMomentsTime(v1, conf)
 
 		api.GetLabels(v1, conf)
 		api.LikeLabel(v1, conf)
@@ -67,11 +70,13 @@ func registerRoutes(router *gin.Engine, conf *config.Config) {
 		api.GetSettings(v1, conf)
 		api.SaveSettings(v1, conf)
 
+		api.GetSvg(v1)
+
 		api.Websocket(v1, conf)
 	}
 
 	// Default HTML page (client-side routing implemented via Vue.js)
 	router.NoRoute(func(c *gin.Context) {
-		c.HTML(http.StatusOK, "index.tmpl", gin.H{"clientConfig": conf.ClientConfig()})
+		c.HTML(http.StatusOK, "index.tmpl", gin.H{"clientConfig": conf.PublicClientConfig()})
 	})
 }

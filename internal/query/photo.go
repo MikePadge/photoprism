@@ -6,6 +6,7 @@ import (
 	"time"
 
 	"github.com/gosimple/slug"
+	"github.com/jinzhu/gorm"
 	"github.com/photoprism/photoprism/internal/entity"
 	"github.com/photoprism/photoprism/internal/form"
 	"github.com/photoprism/photoprism/pkg/capture"
@@ -103,7 +104,7 @@ func (s *Repo) Photos(f form.PhotoSearch) (results []PhotoResult, err error) {
 		return results, err
 	}
 
-	defer log.Debug(capture.Time(time.Now(), fmt.Sprintf("search: %+v", f)))
+	defer log.Debug(capture.Time(time.Now(), fmt.Sprintf("photos: %+v", f)))
 
 	q := s.db.NewScope(nil).DB()
 
@@ -125,6 +126,17 @@ func (s *Repo) Photos(f form.PhotoSearch) (results []PhotoResult, err error) {
 		Joins("LEFT JOIN photos_labels ON photos_labels.photo_id = photos.id").
 		Where("files.file_missing = 0").
 		Group("photos.id, files.id")
+
+	if f.ID != "" {
+		q = q.Where("photos.photo_uuid = ?", f.ID)
+
+		if result := q.Scan(&results); result.Error != nil {
+			return results, result.Error
+		}
+
+		return results, nil
+	}
+
 	var categories []entity.Category
 	var label entity.Label
 	var labelIds []uint
@@ -189,6 +201,10 @@ func (s *Repo) Photos(f form.PhotoSearch) (results []PhotoResult, err error) {
 		q = q.Where("photos.deleted_at IS NOT NULL")
 	} else {
 		q = q.Where("photos.deleted_at IS NULL")
+	}
+
+	if f.Error {
+		q = q.Where("files.file_error <> ''")
 	}
 
 	if f.Album != "" {
@@ -352,7 +368,14 @@ func (s *Repo) FindPhotoByUUID(photoUUID string) (photo entity.Photo, err error)
 
 // PreloadPhotoByUUID returns a Photo based on the UUID with all dependencies preloaded.
 func (s *Repo) PreloadPhotoByUUID(photoUUID string) (photo entity.Photo, err error) {
-	if err := s.db.Where("photo_uuid = ?", photoUUID).Preload("Camera").Preload("Lens").First(&photo).Error; err != nil {
+	if err := s.db.Where("photo_uuid = ?", photoUUID).
+		Preload("Labels", func(db *gorm.DB) *gorm.DB {
+			return db.Order("photos_labels.label_uncertainty ASC, photos_labels.label_id DESC")
+		}).
+		Preload("Labels.Label").
+		Preload("Camera").
+		Preload("Lens").
+		First(&photo).Error; err != nil {
 		return photo, err
 	}
 
