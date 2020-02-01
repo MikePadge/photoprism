@@ -3,7 +3,7 @@ version: '3.5'
 services:
   photoprism:
     build: .
-    image: photoprism/photoprism:develop
+    image: maxhedrom/photoprism:develop
     depends_on:
       - photoprism-db
     ports:

@@ -90,7 +90,7 @@
                 listen: false,
                 dirty: false,
                 results: [],
-                scrollDisabled: false,
+                scrollDisabled: true,
                 pageSize: 60,
                 offset: 0,
                 selection: this.$clipboard.selection,

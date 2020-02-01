@@ -112,8 +112,8 @@ func (s *Repo) Photos(f form.PhotoSearch) (results []PhotoResult, err error) {
 
 	q = q.Table("photos").
 		Select(`photos.*,
-		files.id AS file_id, files.file_uuid, files.file_primary, files.file_missing, files.file_name, files.file_hash, 
-		files.file_type, files.file_mime, files.file_width, files.file_height, files.file_aspect_ratio, 
+		files.id AS file_id, files.file_uuid, files.file_primary, files.file_missing, files.file_name, files.file_hash,
+		files.file_type, files.file_mime, files.file_width, files.file_height, files.file_aspect_ratio,
 		files.file_orientation, files.file_main_color, files.file_colors, files.file_luminance, files.file_chroma,
 		cameras.camera_make, cameras.camera_model,
 		lenses.lens_make, lenses.lens_model,
@@ -272,7 +272,7 @@ func (s *Repo) Photos(f form.PhotoSearch) (results []PhotoResult, err error) {
 	}
 
 	if f.Duplicate {
-		q = q.Where("files.file_duplicate = 1")
+		q = q.Where("files.file_duplicate = 0")
 	}
 
 	if f.Portrait {
