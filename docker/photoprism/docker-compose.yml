@@ -8,7 +8,7 @@ version: '3.3'
 
 services:
   photoprism:
-    image: photoprism/photoprism:latest
+    image: maxhedrom/photoprism:latest
     ports:
       - 2342:2342 # [local port]:[container port]
     environment: # Run "photoprism help" and "photoprism config" too see all config options and current values
@@ -29,7 +29,7 @@ services:
       PHOTOPRISM_PUBLIC: "false"
       PHOTOPRISM_ADMIN_PASSWORD: "photoprism"
     volumes:
-      - "~/Pictures/Originals:/home/photoprism/Pictures/Originals" # [local path]:[container path]
+      - "/Volume/blazer/photoprism:/home/photoprism/Pictures/Originals" # [local path]:[container path]
       - "~/Pictures/Import:/home/photoprism/Pictures/Import" # [local path]:[container path] (optional)
       - "~/Pictures/Export:/home/photoprism/Pictures/Export" # [local path]:[container path] (optional)
       - "photoprism-cache:/home/photoprism/.cache/photoprism" # keep thumbnail cache

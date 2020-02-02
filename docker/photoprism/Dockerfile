@@ -1,4 +1,4 @@
-FROM photoprism/development:20200126 as build
+FROM maxhedrom/development:20200126 as build
 
 # Set up project directory
 WORKDIR "/go/src/github.com/mikepadge/photoprism"
@@ -7,7 +7,7 @@ COPY . .
 # Build PhotoPrism
 RUN make dep build-js install
 
-# Same base image as photoprism/development
+# Same base image as maxhedrom/development
 FROM ubuntu:18.04
 
 # Set environment variables
