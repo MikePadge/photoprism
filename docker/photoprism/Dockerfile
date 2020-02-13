@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 FROM maxhedrom/development:20200126 as build
+=======
+FROM photoprism/development:20200203 as build
+>>>>>>> 5fba03844298ab501ce513a3f967b7578bc09707
 
 # Set up project directory
 WORKDIR "/go/src/github.com/mikepadge/photoprism"
@@ -22,9 +26,6 @@ RUN echo 'APT::Get::Fix-Missing "true";' > /etc/apt/apt.conf.d/80fixmissin
 
 # Install additional distribution packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        curl \
-        unzip \
-        nano \
         wget \
         ca-certificates \
         tzdata \
@@ -33,7 +34,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
         gpg-agent \
         apt-utils \
         add-apt-key \
-        exiftool
+        exiftool \
+        ffmpeg
 
 # Copy dependencies
 COPY --from=build /usr/lib/libtensorflow.so /usr/lib/libtensorflow.so

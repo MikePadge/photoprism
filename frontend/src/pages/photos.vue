@@ -82,15 +82,14 @@
             const settings = {view: view};
 
             return {
-                uploadSubId: null,
-                countSubId: null,
-                modelSubId: null,
+                subscriptions: [],
                 listen: false,
                 dirty: false,
                 results: [],
                 scrollDisabled: true,
                 pageSize: 60,
                 offset: 0,
+                page: 0,
                 selection: this.$clipboard.selection,
                 settings: settings,
                 filter: filter,
@@ -146,27 +145,44 @@
                 if (this.scrollDisabled) return;
 
                 this.scrollDisabled = true;
+                this.listen = false;
 
-                this.offset += this.pageSize;
+                const count = this.dirty ? (this.page + 2) * this.pageSize : this.pageSize;
+                const offset = this.dirty ? 0 : this.offset;
 
                 const params = {
-                    count: this.pageSize,
-                    offset: this.offset,
+                    count: count,
+                    offset: offset,
                 };
 
                 Object.assign(params, this.lastFilter);
 
-                this.listen = false;
+                if (this.staticFilter) {
+                    Object.assign(params, this.staticFilter);
+                }
 
                 Photo.search(params).then(response => {
-                    this.results = this.results.concat(response.models);
+                    this.results = this.dirty ? response.models : this.results.concat(response.models);
 
-                    this.scrollDisabled = (response.models.length < this.pageSize);
+                    this.scrollDisabled = (response.models.length < count);
 
                     if (this.scrollDisabled) {
-                        this.$notify.info(this.$gettext('All ') + this.results.length + this.$gettext(' photos loaded'));
+                        this.offset = offset;
+
+                        if(this.results.length > 1) {
+                            this.$notify.info(this.$gettext('All ') + this.results.length + this.$gettext(' photos loaded'));
+                        }
+                    } else {
+                        this.offset = offset + count;
+                        this.page++;
                     }
-                }).finally(() => this.listen = true);
+                }).catch(() => {
+                    this.scrollDisabled = false;
+                }).finally(() => {
+                    this.dirty = false;
+                    this.loading = false;
+                    this.listen = true;
+                });
             },
             updateQuery() {
                 const query = {
@@ -202,12 +218,12 @@
                 return params;
             },
             refresh() {
-                this.lastFilter = {};
-                const pageSize = this.pageSize;
-                this.pageSize = this.offset + pageSize;
-                this.search();
-                this.offset = this.pageSize;
-                this.pageSize = pageSize;
+                if(this.loading) return;
+                this.loading = true;
+                this.page = 0;
+                this.dirty = true;
+                this.scrollDisabled = false;
+                this.loadMore();
             },
             search() {
                 this.scrollDisabled = true;
@@ -221,12 +237,15 @@
                 Object.assign(this.lastFilter, this.filter);
 
                 this.offset = 0;
+                this.page = 0;
                 this.loading = true;
                 this.listen = false;
 
                 const params = this.searchParams();
 
                 Photo.search(params).then(response => {
+                    this.offset = this.pageSize;
+
                     this.results = response.models;
 
                     this.scrollDisabled = (response.models.length < this.pageSize);
@@ -251,24 +270,18 @@
                 });
             },
             onImportCompleted() {
-                this.dirty = true;
+                if (!this.listen) return;
 
-                if (this.selection.length === 0 && this.offset === 0) {
-                    this.refresh();
-                }
+                this.loadMore();
             },
-            onCount() {
-                this.dirty = true;
-            },
-            onPhotos(ev, data) {
+            onUpdate(ev, data) {
+                if (!this.listen) return;
+
                 if (!data || !data.entities) {
-                    console.warn("onPhotos(): no entities found in event data");
                     return
                 }
 
                 const type = ev.split('.')[1];
-
-                console.log("onPhotos(): ", ev, type, data);
 
                 switch (type) {
                     case 'updated':
@@ -284,47 +297,37 @@
                         }
                         break;
                     case 'restored':
-                        if(this.context === "archive") {
-                            this.dirty = false;
+                        this.dirty = true;
 
-                            for (let i = 0; i < data.entities.length; i++) {
-                                const uuid = data.entities[i];
-                                const index = this.results.findIndex((m) => m.PhotoUUID === uuid);
-                                if (index >= 0) {
-                                    this.results.splice(index, 1);
-                                }
+                        if(this.context !== "archive") break;
+
+                        for (let i = 0; i < data.entities.length; i++) {
+                            const uuid = data.entities[i];
+                            const index = this.results.findIndex((m) => m.PhotoUUID === uuid);
+                            if (index >= 0) {
+                                this.results.splice(index, 1);
                             }
-                        } else {
-                            this.dirty = true;
                         }
+
                         break;
                     case 'archived':
-                        if(this.context === "photos") {
-                            this.dirty = false;
+                        this.dirty = true;
 
-                            for (let i = 0; i < data.entities.length; i++) {
-                                const uuid = data.entities[i];
-                                const index = this.results.findIndex((m) => m.PhotoUUID === uuid);
-                                if (index >= 0) {
-                                    this.results.splice(index, 1);
-                                }
+                        if(this.context === "archive") break;
+
+                        for (let i = 0; i < data.entities.length; i++) {
+                            const uuid = data.entities[i];
+                            const index = this.results.findIndex((m) => m.PhotoUUID === uuid);
+                            if (index >= 0) {
+                                this.results.splice(index, 1);
                             }
-                        } else {
-                            this.dirty = true;
                         }
+
                         break;
                     case 'created':
-                        if(this.order === "imported" && JSON.stringify(this.filter) === "{}") {
-                            this.dirty = false;
+                        this.dirty = true;
+                        this.scrollDisabled = false;
 
-                            for (let i = 0; i < data.entities.length; i++) {
-                                const values = data.entities[i];
-                                const index = this.results.findIndex((m) => m.ID === values.ID);
-                                if(index === -1) {
-                                    this.results.unshift(new Photo(values));
-                                }
-                            }
-                        }
                         break;
                     default:
                         console.warn("unexpected event type", ev);
@@ -334,14 +337,13 @@
         created() {
             this.search();
 
-            this.uploadSubId = Event.subscribe("import.completed", (ev, data) => this.onImportCompleted(ev, data));
-            this.countSubId = Event.subscribe("count.photos", (ev, data) => this.onCount(ev, data));
-            this.modelSubId = Event.subscribe("photos", (ev, data) => this.onPhotos(ev, data));
+            this.subscriptions.push(Event.subscribe("import.completed", (ev, data) => this.onImportCompleted(ev, data)));
+            this.subscriptions.push(Event.subscribe("photos", (ev, data) => this.onUpdate(ev, data)));
         },
         destroyed() {
-            Event.unsubscribe(this.uploadSubId);
-            Event.unsubscribe(this.countSubId);
-            Event.unsubscribe(this.modelSubId);
-        }
+            for(let i = 0; i < this.subscriptions.length; i++) {
+                Event.unsubscribe(this.subscriptions[i]);
+            }
+        },
     };
 </script>

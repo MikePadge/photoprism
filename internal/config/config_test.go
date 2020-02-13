@@ -172,6 +172,7 @@ func TestConfig_OriginalsPath(t *testing.T) {
 	c := NewConfig(ctx)
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 	path := c.OriginalsPath()
 	assert.Equal(t, "/go/src/github.com/mikepadge/photoprism/assets/testdata/originals", path)
 =======
@@ -179,6 +180,11 @@ func TestConfig_OriginalsPath(t *testing.T) {
 	assert.True(t, strings.HasPrefix(result, "/"))
 	assert.True(t, strings.HasSuffix(result, "assets/testdata/originals"))
 >>>>>>> 7cbdd31793e34cddb2c20a04d20d8ae5d25d7729
+=======
+	result := c.OriginalsPath()
+	assert.True(t, strings.HasPrefix(result, "/"))
+	assert.True(t, strings.HasSuffix(result, "assets/testdata/originals"))
+>>>>>>> 5fba03844298ab501ce513a3f967b7578bc09707
 }
 
 func TestConfig_ImportPath(t *testing.T) {

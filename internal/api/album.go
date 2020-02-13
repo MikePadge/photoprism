@@ -99,13 +99,7 @@ func CreateAlbum(router *gin.RouterGroup, conf *config.Config) {
 			return
 		}
 
-		/* TODO: Not needed if we send config.updated
-		event.Publish("count.albums", event.Data{
-			"count": 1,
-		})
-		*/
-
-		event.Success(fmt.Sprintf("album \"%s\" created", m.AlbumName))
+		event.Success("album created")
 
 		event.Publish("config.updated", event.Data(conf.ClientConfig()))
 
@@ -250,37 +244,35 @@ func AddPhotosToAlbum(router *gin.RouterGroup, conf *config.Config) {
 			return
 		}
 
-		var f form.PhotoUUIDs
+		var f form.Selection
 
 		if err := c.BindJSON(&f); err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": txt.UcFirst(err.Error())})
 			return
 		}
 
-		if len(f.Photos) == 0 {
-			log.Error("no photos selected")
-			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": txt.UcFirst("no photos selected")})
-			return
-		}
-
+		uuid := c.Param("uuid")
 		q := query.New(conf.OriginalsPath(), conf.Db())
-		a, err := q.FindAlbumByUUID(c.Param("uuid"))
+		a, err := q.FindAlbumByUUID(uuid)
 
 		if err != nil {
 			c.AbortWithStatusJSON(http.StatusNotFound, ErrAlbumNotFound)
 			return
 		}
 
+		photos, err := q.PhotoSelection(f)
+
+		if err != nil {
+			log.Errorf("album: %s", err)
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": txt.UcFirst(err.Error())})
+			return
+		}
+
 		db := conf.Db()
 		var added []*entity.PhotoAlbum
-		var failed []string
 
-		for _, photoUUID := range f.Photos {
-			if p, err := q.FindPhotoByUUID(photoUUID); err != nil {
-				failed = append(failed, photoUUID)
-			} else {
-				added = append(added, entity.NewPhotoAlbum(p.PhotoUUID, a.AlbumUUID).FirstOrCreate(db))
-			}
+		for _, p := range photos {
+			added = append(added, entity.NewPhotoAlbum(p.PhotoUUID, a.AlbumUUID).FirstOrCreate(db))
 		}
 
 		if len(added) == 1 {
@@ -289,7 +281,9 @@ func AddPhotosToAlbum(router *gin.RouterGroup, conf *config.Config) {
 			event.Success(fmt.Sprintf("%d photos added to %s", len(added), a.AlbumName))
 		}
 
-		c.JSON(http.StatusOK, gin.H{"message": "photos added to album", "album": a, "added": added, "failed": failed})
+		PublishAlbumEvent(EntityUpdated, a.AlbumUUID, c, q)
+
+		c.JSON(http.StatusOK, gin.H{"message": "photos added to album", "album": a, "added": added})
 	})
 }
 
@@ -301,7 +295,7 @@ func RemovePhotosFromAlbum(router *gin.RouterGroup, conf *config.Config) {
 			return
 		}
 
-		var f form.PhotoUUIDs
+		var f form.Selection
 
 		if err := c.BindJSON(&f); err != nil {
 			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": txt.UcFirst(err.Error())})
@@ -327,6 +321,8 @@ func RemovePhotosFromAlbum(router *gin.RouterGroup, conf *config.Config) {
 		db.Where("album_uuid = ? AND photo_uuid IN (?)", a.AlbumUUID, f.Photos).Delete(&entity.PhotoAlbum{})
 
 		event.Success(fmt.Sprintf("photos removed from %s", a.AlbumName))
+
+		PublishAlbumEvent(EntityUpdated, a.AlbumUUID, c, q)
 
 		c.JSON(http.StatusOK, gin.H{"message": "photos removed from album", "album": a, "photos": f.Photos})
 	})

@@ -39,15 +39,10 @@ RUN apt-get update && apt-get upgrade && \
     gpg-agent \
     apt-utils \
     make \
-    nano \
     wget \
     git \
-    mysql-client \
     tzdata \
-    gconf-service \
-    libheif-examples \
-    darktable \
-    exiftool
+    gconf-service
 
 # Install & configure TensorFlow for C
 #
@@ -74,12 +69,12 @@ RUN npm install --unsafe-perm=true --allow-root -g npm
 RUN npm config set cache ~/.cache/npm
 
 # Install Go
-ENV GOLANG_VERSION 1.13.6
+ENV GOLANG_VERSION 1.13.7
 RUN set -eux; \
 	\
 	url="https://golang.org/dl/go${GOLANG_VERSION}.linux-arm64.tar.gz"; \
 	wget -O go.tgz "$url"; \
-	echo "0a18125c4ed80f9c3045cf92384670907c4796b43ed63c4307210fe93e5bbca5 *go.tgz" | sha256sum -c -; \
+	echo "8717de6c662ada01b7bf318f5025c046b57f8c10cd39a88268bdc171cc7e4eab *go.tgz" | sha256sum -c -; \
 	tar -C /usr/local -xzf go.tgz; \
 	rm go.tgz; \
 	export PATH="/usr/local/go/bin:$PATH"; \
@@ -119,15 +114,12 @@ RUN echo 'APT::Get::Fix-Missing "true";' > /etc/apt/apt.conf.d/80fixmissin
 
 # Install additional distribution packages
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        curl \
-        unzip \
-        nano \
-        wget \
         ca-certificates \
         tzdata \
         libheif-examples \
         darktable \
-        exiftool && \
+        exiftool \
+        ffmpeg && \
     apt-get update && \
     apt-get upgrade && \
     apt-get dist-upgrade && \

@@ -19,7 +19,7 @@
 
                 <v-spacer></v-spacer>
 
-                <v-btn icon @click.stop="refresh" :class="dirty ? 'secondary-light': ''">
+                <v-btn icon @click.stop="refresh">
                     <v-icon>refresh</v-icon>
                 </v-btn>
 
@@ -38,7 +38,7 @@
             <p-album-clipboard :refresh="refresh" :selection="selection"></p-album-clipboard>
 
             <v-container grid-list-xs fluid class="pa-2 p-albums p-albums-details">
-                <v-card v-if="results.length === 0" class="p-albums-empty secondary-light lighten-1" flat>
+                <v-card v-if="results.length === 0" class="p-albums-empty secondary-light lighten-1 ma-1" flat>
                     <v-card-title primary-title>
                         <div>
                             <h3 class="title mb-3">
@@ -50,7 +50,7 @@
                         </div>
                     </v-card-title>
                 </v-card>
-                <v-layout row wrap class="p-results">
+                <v-layout row wrap class="p-album-results">
                     <v-flex
                             v-for="(album, index) in results"
                             :key="index"
@@ -60,7 +60,12 @@
                         <v-hover>
                             <v-card tile class="accent lighten-3"
                                     slot-scope="{ hover }"
+<<<<<<< HEAD
                                     :class="selection.includes(album.AlbumUUID) ? 'elevation-10 ma-0' : 'elevation-0 ma-1'"
+=======
+                                    :dark="selection.includes(album.AlbumUUID)"
+                                    :class="selection.includes(album.AlbumUUID) ? 'elevation-10 ma-0 accent darken-1 white--text' : 'elevation-0 ma-1 accent lighten-3'"
+>>>>>>> 5fba03844298ab501ce513a3f967b7578bc09707
                                     :to="{name: 'album', params: {uuid: album.AlbumUUID, slug: album.AlbumSlug}}"
                             >
                                 <v-img
@@ -80,7 +85,7 @@
                                     </v-layout>
 
                                     <v-btn v-if="hover || selection.length > 0" :flat="!hover" :ripple="false"
-                                           icon small absolute
+                                           icon large absolute
                                            class="p-album-select"
                                            @click.stop.prevent="toggleSelection(album.AlbumUUID)">
                                         <v-icon v-if="selection.includes(album.AlbumUUID)" color="white">check_circle
@@ -158,13 +163,15 @@
             const settings = {};
 
             return {
-                subId: null,
+                subscriptions: [],
+                listen: false,
                 dirty: false,
                 results: [],
                 loading: true,
                 scrollDisabled: true,
                 pageSize: 24,
                 offset: 0,
+                page: 0,
                 selection: [],
                 settings: settings,
                 filter: filter,
@@ -186,24 +193,43 @@
                 if (this.scrollDisabled) return;
 
                 this.scrollDisabled = true;
+                this.listen = false;
 
-                this.offset += this.pageSize;
+                const count = this.dirty ? (this.page + 2) * this.pageSize : this.pageSize;
+                const offset = this.dirty ? 0 : this.offset;
 
                 const params = {
-                    count: this.pageSize,
-                    offset: this.offset,
+                    count: count,
+                    offset: offset,
                 };
 
                 Object.assign(params, this.lastFilter);
 
-                Album.search(params).then(response => {
-                    this.results = this.results.concat(response.models);
+                if (this.staticFilter) {
+                    Object.assign(params, this.staticFilter);
+                }
 
-                    this.scrollDisabled = (response.models.length < this.pageSize);
+                Album.search(params).then(response => {
+                    this.results = this.dirty ? response.models : this.results.concat(response.models);
+
+                    this.scrollDisabled = (response.models.length < count);
 
                     if (this.scrollDisabled) {
-                        this.$notify.info(this.$gettext("All ") + this.results.length + this.$gettext(" albums loaded"));
+                        this.offset = offset;
+
+                        if(this.results.length > 1) {
+                            this.$notify.info(this.$gettext("All ") + this.results.length + this.$gettext(" albums loaded"));
+                        }
+                    } else {
+                        this.offset = offset + count;
+                        this.page++;
                     }
+                }).catch(() => {
+                    this.scrollDisabled = false;
+                }).finally(() => {
+                    this.dirty = false;
+                    this.loading = false;
+                    this.listen = true;
                 });
             },
             updateQuery() {
@@ -251,13 +277,15 @@
                 Object.assign(this.lastFilter, this.filter);
 
                 this.offset = 0;
+                this.page = 0;
                 this.loading = true;
+                this.listen = false;
 
                 const params = this.searchParams();
 
                 Album.search(params).then(response => {
-                    this.loading = false;
-                    this.dirty = false;
+                    this.offset = this.pageSize;
+
                     this.results = response.models;
 
                     this.scrollDisabled = (response.models.length < this.pageSize);
@@ -275,15 +303,19 @@
 
                         this.$nextTick(() => this.$emit("scrollRefresh"));
                     }
-                }).catch(() => this.loading = false);
+                }).finally(() => {
+                    this.dirty = false;
+                    this.loading = false;
+                    this.listen = true;
+                });
             },
             refresh() {
-                this.lastFilter = {};
-                const pageSize = this.pageSize;
-                this.pageSize = this.offset + pageSize;
-                this.search();
-                this.offset = this.pageSize;
-                this.pageSize = pageSize;
+                if(this.loading) return;
+                this.loading = true;
+                this.page = 0;
+                this.dirty = true;
+                this.scrollDisabled = false;
+                this.loadMore();
             },
             create() {
                 let name = DateTime.local().toFormat("LLLL yyyy");
@@ -295,12 +327,7 @@
 
                 const album = new Album({"AlbumName": name, "AlbumFavorite": true});
 
-                album.save().then(() => {
-                    this.filter.q = "";
-                    this.lastFilter = {};
-
-                    this.search();
-                })
+                album.save();
             },
             onSave(album) {
                 album.update();
@@ -314,20 +341,75 @@
                     this.selection.push(uuid)
                 }
             },
-            onCount() {
-                this.dirty = true;
+            removeSelection(uuid) {
+                const pos = this.selection.indexOf(uuid);
 
-                if(!this.selection && this.offset === 0) {
-                    this.refresh();
+                if (pos !== -1) {
+                    this.selection.splice(pos, 1);
+                }
+            },
+            onUpdate(ev, data) {
+                if (!this.listen) return;
+
+                if (!data || !data.entities) {
+                    return
+                }
+
+                const type = ev.split('.')[1];
+
+                switch (type) {
+                    case 'updated':
+                        for (let i = 0; i < data.entities.length; i++) {
+                            const values = data.entities[i];
+                            const model = this.results.find((m) => m.AlbumUUID === values.AlbumUUID);
+
+                            for (let key in values) {
+                                if (values.hasOwnProperty(key)) {
+                                    model[key] = values[key];
+                                }
+                            }
+                        }
+                        break;
+                    case 'deleted':
+                        this.dirty = true;
+
+                        for (let i = 0; i < data.entities.length; i++) {
+                            const uuid = data.entities[i];
+                            const index = this.results.findIndex((m) => m.AlbumUUID === uuid);
+
+                            if (index >= 0) {
+                                this.results.splice(index, 1);
+                            }
+
+                            this.removeSelection(uuid)
+                        }
+
+                        break;
+                    case 'created':
+                        this.dirty = true;
+
+                        for (let i = 0; i < data.entities.length; i++) {
+                            const values = data.entities[i];
+                            const index = this.results.findIndex((m) => m.AlbumUUID === values.AlbumUUID);
+                            if(index === -1) {
+                                this.results.unshift(new Album(values));
+                            }
+                        }
+                        break;
+                    default:
+                        console.warn("unexpected event type", ev);
                 }
             }
         },
         created() {
             this.search();
-            this.subId = Event.subscribe("count.albums", (ev, data) => this.onCount(ev, data));
+
+            this.subscriptions.push(Event.subscribe("albums", (ev, data) => this.onUpdate(ev, data)));
         },
         destroyed() {
-            Event.unsubscribe(this.subId);
+            for(let i = 0; i < this.subscriptions.length; i++) {
+                Event.unsubscribe(this.subscriptions[i]);
+            }
         },
     };
 </script>

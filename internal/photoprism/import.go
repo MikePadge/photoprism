@@ -192,7 +192,11 @@ func (imp *Import) DestinationFilename(mainFile *MediaFile, mediaFile *MediaFile
 	dateCreated := mainFile.DateCreated()
 
 	if !mediaFile.IsSidecar() {
+<<<<<<< HEAD
 		if f, err := entity.FindFileByHash(imp.conf.Db(), mediaFile.Hash()); err == nil {
+=======
+		if f, err := entity.FirstFileByHash(imp.conf.Db(), mediaFile.Hash()); err == nil {
+>>>>>>> 5fba03844298ab501ce513a3f967b7578bc09707
 			existingFilename := imp.conf.OriginalsPath() + string(os.PathSeparator) + f.FileName
 			return existingFilename, fmt.Errorf("\"%s\" is identical to \"%s\" (%s)", mediaFile.FileName(), f.FileName, mediaFile.Hash())
 		}

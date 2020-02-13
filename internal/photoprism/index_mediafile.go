@@ -87,10 +87,15 @@ func (ind *Index) MediaFile(m *MediaFile, o IndexOptions, originalName string) I
 		fileHash = m.Hash()
 	}
 
+<<<<<<< HEAD
 	if !photoExists {
 		photo.PhotoPath = filePath
 		photo.PhotoName = fileBase
 	}
+=======
+	photo.PhotoPath = filePath
+	photo.PhotoName = fileBase
+>>>>>>> 5fba03844298ab501ce513a3f967b7578bc09707
 
 	if !file.FilePrimary {
 		if photoExists {
@@ -104,9 +109,12 @@ func (ind *Index) MediaFile(m *MediaFile, o IndexOptions, originalName string) I
 
 	if file.FilePrimary {
 		primaryFile = file
+<<<<<<< HEAD
 
 		photo.PhotoPath = filePath
 		photo.PhotoName = fileBase
+=======
+>>>>>>> 5fba03844298ab501ce513a3f967b7578bc09707
 
 		if !ind.conf.TensorFlowDisabled() && (fileChanged || o.UpdateKeywords || o.UpdateLabels || o.UpdateTitle) {
 			// Image classification via TensorFlow
@@ -117,13 +125,49 @@ func (ind *Index) MediaFile(m *MediaFile, o IndexOptions, originalName string) I
 		if fileChanged || o.UpdateExif {
 			// Read UpdateExif data
 			if metaData, err := m.MetaData(); err == nil {
-				photo.PhotoLat = metaData.Lat
-				photo.PhotoLng = metaData.Lng
-				photo.TakenAt = metaData.TakenAt
-				photo.TakenAtLocal = metaData.TakenAtLocal
-				photo.TimeZone = metaData.TimeZone
-				photo.PhotoAltitude = metaData.Altitude
-				photo.PhotoArtist = metaData.Artist
+				if !photo.ModifiedLocation {
+					photo.PhotoLat = metaData.Lat
+					photo.PhotoLng = metaData.Lng
+					photo.PhotoAltitude = metaData.Altitude
+				}
+
+				if !photo.ModifiedDate {
+					photo.TakenAt = metaData.TakenAt
+					photo.TakenAtLocal = metaData.TakenAtLocal
+					photo.TimeZone = metaData.TimeZone
+				}
+
+				if photo.NoTitle() {
+					photo.PhotoTitle = metaData.Title
+				}
+
+				if photo.NoDescription() {
+					photo.PhotoDescription = metaData.Description
+				}
+
+				if photo.NoNotes() {
+					photo.PhotoNotes = metaData.Comment
+				}
+
+				if photo.NoSubject() {
+					photo.PhotoSubject = metaData.Subject
+				}
+
+				if photo.NoKeywords() {
+					photo.PhotoKeywords = metaData.Keywords
+				}
+
+				if photo.NoArtist() && metaData.Artist != "" {
+					photo.PhotoArtist = metaData.Artist
+				}
+
+				if photo.NoArtist() && metaData.CameraOwner != "" {
+					photo.PhotoArtist = metaData.CameraOwner
+				}
+
+				if photo.NoCameraSerial() {
+					photo.CameraSerial = metaData.CameraSerial
+				}
 
 				if len(metaData.UniqueID) > 15 {
 					log.Debugf("index: file uuid \"%s\"", metaData.UniqueID)
@@ -133,7 +177,7 @@ func (ind *Index) MediaFile(m *MediaFile, o IndexOptions, originalName string) I
 			}
 		}
 
-		if fileChanged || o.UpdateCamera {
+		if !photo.ModifiedDetails && (fileChanged || o.UpdateCamera) {
 			// Set UpdateCamera, Lens, Focal Length and F Number
 			photo.Camera = entity.NewCamera(m.CameraModel(), m.CameraMake()).FirstOrCreate(ind.db)
 			photo.Lens = entity.NewLens(m.LensModel(), m.LensMake()).FirstOrCreate(ind.db)
@@ -184,15 +228,15 @@ func (ind *Index) MediaFile(m *MediaFile, o IndexOptions, originalName string) I
 				photo.PhotoTitle = data.Title
 			}
 
-			if data.Copyright != "" {
+			if photo.NoCopyright() && data.Copyright != "" {
 				photo.PhotoCopyright = data.Copyright
 			}
 
-			if data.Artist != "" {
+			if photo.NoArtist() && data.Artist != "" {
 				photo.PhotoArtist = data.Artist
 			}
 
-			if data.Description != "" {
+			if photo.NoDescription() && data.Description != "" {
 				photo.PhotoDescription = data.Description
 			}
 		}
@@ -212,16 +256,18 @@ func (ind *Index) MediaFile(m *MediaFile, o IndexOptions, originalName string) I
 			return indexResultFailed
 		}
 	} else {
-		event.Publish("count.photos", event.Data{
-			"count": 1,
-		})
-
 		photo.PhotoFavorite = false
 
 		if err := ind.db.Create(&photo).Error; err != nil {
 			log.Errorf("index: %s", err)
 			return indexResultFailed
 		}
+
+		event.Publish("count.photos", event.Data{
+			"count": 1,
+		})
+
+		event.EntitiesCreated("photos", []entity.Photo{photo})
 	}
 
 	if len(labels) > 0 {
@@ -387,10 +433,14 @@ func (ind *Index) addLabels(photoId uint, labels classify.Labels) {
 	for _, label := range labels {
 		lm := entity.NewLabel(txt.Title(label.Name), label.Priority).FirstOrCreate(ind.db)
 
-		if lm.New && label.Priority >= 0 {
-			event.Publish("count.labels", event.Data{
-				"count": 1,
-			})
+		if lm.New {
+			event.EntitiesCreated("labels", []*entity.Label{lm})
+
+			if label.Priority >= 0 {
+				event.Publish("count.labels", event.Data{
+					"count": 1,
+				})
+			}
 		}
 
 		if lm.LabelPriority != label.Priority {

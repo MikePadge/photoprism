@@ -13,7 +13,10 @@ import (
 	"github.com/photoprism/photoprism/internal/mutex"
 	"github.com/photoprism/photoprism/pkg/rnd"
 	"github.com/photoprism/photoprism/pkg/txt"
+<<<<<<< HEAD
 >>>>>>> 7cbdd31793e34cddb2c20a04d20d8ae5d25d7729
+=======
+>>>>>>> 5fba03844298ab501ce513a3f967b7578bc09707
 )
 
 // Labels for photo, album and location categorization
