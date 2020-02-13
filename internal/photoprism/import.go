@@ -18,37 +18,38 @@ import (
 
 // Import represents an importer that can copy/move MediaFiles to the originals directory.
 type Import struct {
-	conf                   *config.Config
-	index                  *Index
-	convert                *Convert
-	removeDotFiles         bool
-	removeExistingFiles    bool
-	removeEmptyDirectories bool
+	conf    *config.Config
+	index   *Index
+	convert *Convert
 }
 
 // NewImport returns a new importer and expects its dependencies as arguments.
 func NewImport(conf *config.Config, index *Index, convert *Convert) *Import {
 	instance := &Import{
-		conf:                   conf,
-		index:                  index,
-		convert:                convert,
-		removeDotFiles:         true,
-		removeExistingFiles:    true,
-		removeEmptyDirectories: true,
+		conf:    conf,
+		index:   index,
+		convert: convert,
 	}
 
 	return instance
 }
 
+// originalsPath returns the original media files path as string.
 func (imp *Import) originalsPath() string {
 	return imp.conf.OriginalsPath()
 }
 
-// Start imports MediaFiles from a directory and converts/indexes them as needed.
-func (imp *Import) Start(importPath string) {
+// Start imports media files from a directory and converts/indexes them as needed.
+func (imp *Import) Start(opt ImportOptions) {
 	var directories []string
 	done := make(map[string]bool)
 	ind := imp.index
+	importPath := opt.Path
+
+	if !fs.PathExists(importPath) {
+		event.Error(fmt.Sprintf("import: %s does not exist", importPath))
+		return
+	}
 
 	if err := mutex.Worker.Start(); err != nil {
 		event.Error(fmt.Sprintf("import: %s", err.Error()))
@@ -75,9 +76,9 @@ func (imp *Import) Start(importPath string) {
 		}()
 	}
 
-	options := IndexOptionsAll()
+	indexOpt := IndexOptionsAll()
 
-	err := filepath.Walk(importPath, func(filename string, fileInfo os.FileInfo, err error) error {
+	err := filepath.Walk(importPath, func(fileName string, fileInfo os.FileInfo, err error) error {
 		defer func() {
 			if err := recover(); err != nil {
 				log.Errorf("import: %s [panic]", err)
@@ -88,28 +89,33 @@ func (imp *Import) Start(importPath string) {
 			return errors.New("import canceled")
 		}
 
-		if err != nil || done[filename] {
+		if err != nil || done[fileName] {
 			return nil
 		}
 
 		if fileInfo.IsDir() {
-			if filename != importPath {
-				directories = append(directories, filename)
+			if fileName != importPath {
+				directories = append(directories, fileName)
 			}
 
 			return nil
 		}
 
-		if imp.removeDotFiles && strings.HasPrefix(filepath.Base(filename), ".") {
-			done[filename] = true
-			if err := os.Remove(filename); err != nil {
-				log.Errorf("import: could not remove \"%s\" (%s)", filename, err.Error())
+		if strings.HasPrefix(filepath.Base(fileName), ".") {
+			done[fileName] = true
+
+			if !opt.RemoveDotFiles {
+				return nil
+			}
+
+			if err := os.Remove(fileName); err != nil {
+				log.Errorf("import: could not remove \"%s\" (%s)", fileName, err.Error())
 			}
 
 			return nil
 		}
 
-		mf, err := NewMediaFile(filename)
+		mf, err := NewMediaFile(fileName)
 
 		if err != nil || !mf.IsPhoto() {
 			return nil
@@ -126,24 +132,24 @@ func (imp *Import) Start(importPath string) {
 		var files MediaFiles
 
 		for _, f := range related.files {
-			if done[f.Filename()] {
+			if done[f.FileName()] {
 				continue
 			}
 
 			files = append(files, f)
-			done[f.Filename()] = true
+			done[f.FileName()] = true
 		}
 
-		done[mf.Filename()] = true
+		done[mf.FileName()] = true
 
 		related.files = files
 
 		jobs <- ImportJob{
-			filename: filename,
-			related: related,
-			opt:     options,
-			path:    importPath,
-			imp:     imp,
+			fileName:  fileName,
+			related:   related,
+			indexOpt:  indexOpt,
+			importOpt: opt,
+			imp:       imp,
 		}
 
 		return nil
@@ -156,14 +162,14 @@ func (imp *Import) Start(importPath string) {
 		return len(directories[i]) > len(directories[j])
 	})
 
-	if imp.removeEmptyDirectories {
+	if opt.RemoveEmptyDirectories {
 		// Remove empty directories from import path
 		for _, directory := range directories {
 			if fs.IsEmpty(directory) {
 				if err := os.Remove(directory); err != nil {
-					log.Errorf("import: could not deleted empty directory \"%s\" (%s)", directory, err)
+					log.Errorf("import: could not deleted empty directory %s (%s)", directory, err)
 				} else {
-					log.Infof("import: deleted empty directory \"%s\"", directory)
+					log.Infof("import: deleted empty directory %s", directory)
 				}
 			}
 		}
@@ -185,13 +191,15 @@ func (imp *Import) DestinationFilename(mainFile *MediaFile, mediaFile *MediaFile
 	fileExtension := mediaFile.Extension()
 	dateCreated := mainFile.DateCreated()
 
-	if f, err := entity.FindFileByHash(imp.conf.Db(), mediaFile.Hash()); err == nil {
-		existingFilename := imp.conf.OriginalsPath() + string(os.PathSeparator) + f.FileName
-		return existingFilename, fmt.Errorf("\"%s\" is identical to \"%s\" (%s)", mediaFile.Filename(), f.FileName, mediaFile.Hash())
+	if !mediaFile.IsSidecar() {
+		if f, err := entity.FindFileByHash(imp.conf.Db(), mediaFile.Hash()); err == nil {
+			existingFilename := imp.conf.OriginalsPath() + string(os.PathSeparator) + f.FileName
+			return existingFilename, fmt.Errorf("\"%s\" is identical to \"%s\" (%s)", mediaFile.FileName(), f.FileName, mediaFile.Hash())
+		}
 	}
 
 	//	Mon Jan 2 15:04:05 -0700 MST 2006
-	pathName := imp.originalsPath() + string(os.PathSeparator) + dateCreated.UTC().Format("2006/01")
+	pathName := imp.originalsPath() + string(os.PathSeparator) + dateCreated.Format("2006/01")
 
 	iteration := 0
 

@@ -9,11 +9,20 @@ import (
 	"sync"
 
 	"github.com/jinzhu/gorm"
+<<<<<<< HEAD
 	"github.com/mikepadge/photoprism/internal/classify"
 	"github.com/mikepadge/photoprism/internal/config"
 	"github.com/mikepadge/photoprism/internal/event"
 	"github.com/mikepadge/photoprism/internal/mutex"
 	"github.com/mikepadge/photoprism/internal/nsfw"
+=======
+	"github.com/photoprism/photoprism/internal/classify"
+	"github.com/photoprism/photoprism/internal/config"
+	"github.com/photoprism/photoprism/internal/event"
+	"github.com/photoprism/photoprism/internal/mutex"
+	"github.com/photoprism/photoprism/internal/nsfw"
+	"github.com/photoprism/photoprism/pkg/fs"
+>>>>>>> 7cbdd31793e34cddb2c20a04d20d8ae5d25d7729
 )
 
 // Index represents an indexer that indexes files in the originals directory.
@@ -49,9 +58,15 @@ func (ind *Index) Cancel() {
 	mutex.Worker.Cancel()
 }
 
-// Start will index MediaFiles in the originals directory.
+// Start indexes media files in the originals directory.
 func (ind *Index) Start(options IndexOptions) map[string]bool {
 	done := make(map[string]bool)
+	originalsPath := ind.originalsPath()
+
+	if !fs.PathExists(originalsPath) {
+		event.Error(fmt.Sprintf("index: %s does not exist", originalsPath))
+		return done
+	}
 
 	if err := mutex.Worker.Start(); err != nil {
 		event.Error(fmt.Sprintf("index: %s", err.Error()))
@@ -79,7 +94,7 @@ func (ind *Index) Start(options IndexOptions) map[string]bool {
 		}()
 	}
 
-	err := filepath.Walk(ind.originalsPath(), func(filename string, fileInfo os.FileInfo, err error) error {
+	err := filepath.Walk(originalsPath, func(fileName string, fileInfo os.FileInfo, err error) error {
 		defer func() {
 			if err := recover(); err != nil {
 				log.Errorf("index: %s [panic]", err)
@@ -90,15 +105,15 @@ func (ind *Index) Start(options IndexOptions) map[string]bool {
 			return errors.New("indexing canceled")
 		}
 
-		if err != nil || done[filename] {
+		if err != nil || done[fileName] {
 			return nil
 		}
 
-		if fileInfo.IsDir() || strings.HasPrefix(filepath.Base(filename), ".") {
+		if fileInfo.IsDir() || strings.HasPrefix(filepath.Base(fileName), ".") {
 			return nil
 		}
 
-		mf, err := NewMediaFile(filename)
+		mf, err := NewMediaFile(fileName)
 
 		if err != nil || !mf.IsPhoto() {
 			return nil
@@ -115,23 +130,23 @@ func (ind *Index) Start(options IndexOptions) map[string]bool {
 		var files MediaFiles
 
 		for _, f := range related.files {
-			if done[f.Filename()] {
+			if done[f.FileName()] {
 				continue
 			}
 
 			files = append(files, f)
-			done[f.Filename()] = true
+			done[f.FileName()] = true
 		}
 
-		done[mf.Filename()] = true
+		done[mf.FileName()] = true
 
 		related.files = files
 
 		jobs <- IndexJob{
-			filename: mf.Filename(),
-			related: related,
-			opt:     options,
-			ind:     ind,
+			filename: mf.FileName(),
+			related:  related,
+			opt:      options,
+			ind:      ind,
 		}
 
 		return nil

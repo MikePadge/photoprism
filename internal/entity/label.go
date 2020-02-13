@@ -6,8 +6,14 @@ import (
 
 	"github.com/gosimple/slug"
 	"github.com/jinzhu/gorm"
+<<<<<<< HEAD
 	"github.com/mikepadge/photoprism/internal/mutex"
 	"github.com/mikepadge/photoprism/pkg/rnd"
+=======
+	"github.com/photoprism/photoprism/internal/mutex"
+	"github.com/photoprism/photoprism/pkg/rnd"
+	"github.com/photoprism/photoprism/pkg/txt"
+>>>>>>> 7cbdd31793e34cddb2c20a04d20d8ae5d25d7729
 )
 
 // Labels for photo, album and location categorization
@@ -67,4 +73,14 @@ func (m *Label) FirstOrCreate(db *gorm.DB) *Label {
 
 func (m *Label) AfterCreate(scope *gorm.Scope) error {
 	return scope.SetColumn("New", true)
+}
+
+func (m *Label) Rename(name string) {
+	name = txt.Clip(name, 128)
+
+	if name == "" {
+		name = txt.SlugToTitle(m.LabelSlug)
+	}
+
+	m.LabelName = name
 }

@@ -22,14 +22,15 @@ func main() {
 	app.Flags = config.GlobalFlags
 
 	app.Commands = []cli.Command{
-		commands.ConfigCommand,
 		commands.StartCommand,
 		commands.StopCommand,
-		commands.MigrateCommand,
-		commands.ImportCommand,
 		commands.IndexCommand,
+		commands.ImportCommand,
+		commands.CopyCommand,
 		commands.ConvertCommand,
-		commands.ThumbnailsCommand,
+		commands.ThumbsCommand,
+		commands.MigrateCommand,
+		commands.ConfigCommand,
 		commands.VersionCommand,
 	}
 

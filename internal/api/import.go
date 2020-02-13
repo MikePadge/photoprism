@@ -9,10 +9,19 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+<<<<<<< HEAD
 	"github.com/mikepadge/photoprism/internal/config"
 	"github.com/mikepadge/photoprism/internal/event"
 	"github.com/mikepadge/photoprism/internal/photoprism"
 	"github.com/mikepadge/photoprism/pkg/fs"
+=======
+	"github.com/photoprism/photoprism/internal/config"
+	"github.com/photoprism/photoprism/internal/event"
+	"github.com/photoprism/photoprism/internal/form"
+	"github.com/photoprism/photoprism/internal/photoprism"
+	"github.com/photoprism/photoprism/pkg/fs"
+	"github.com/photoprism/photoprism/pkg/txt"
+>>>>>>> 7cbdd31793e34cddb2c20a04d20d8ae5d25d7729
 )
 
 var imp *photoprism.Import
@@ -42,8 +51,16 @@ func StartImport(router *gin.RouterGroup, conf *config.Config) {
 			return
 		}
 
-		subPath := ""
 		start := time.Now()
+
+		var f form.ImportOptions
+
+		if err := c.BindJSON(&f); err != nil {
+			c.AbortWithStatusJSON(http.StatusBadRequest, gin.H{"error": txt.UcFirst(err.Error())})
+			return
+		}
+
+		subPath := ""
 		path := conf.ImportPath()
 
 		if subPath = c.Param("path"); subPath != "" && subPath != "/" {
@@ -54,11 +71,19 @@ func StartImport(router *gin.RouterGroup, conf *config.Config) {
 
 		path = filepath.Clean(path)
 
-		event.Info(fmt.Sprintf("importing photos from \"%s\"", filepath.Base(path)))
-
 		initImport(conf)
 
-		imp.Start(path)
+		var opt photoprism.ImportOptions
+
+		if f.Move {
+			event.Info(fmt.Sprintf("moving files from \"%s\"", filepath.Base(path)))
+			opt = photoprism.ImportOptionsMove(path)
+		} else {
+			event.Info(fmt.Sprintf("copying files from \"%s\"", filepath.Base(path)))
+			opt = photoprism.ImportOptionsCopy(path)
+		}
+
+		imp.Start(opt)
 
 		if subPath != "" && path != conf.ImportPath() && fs.IsEmpty(path) {
 			if err := os.Remove(path); err != nil {
